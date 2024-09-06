@@ -7,29 +7,29 @@ def turno_m(lista, inicio, fin):
 def jugar(lista):
     turno = "s"
     suma_s = 0
-    #lista_s = []
     suma_m = 0
-    #lista_m = []
     inicio = 0
+    res = []
     fin = len(lista)-1
-    largo_lista = len(lista)
     while fin >= inicio:
         if turno == "s":
             saco = turno_s(lista, inicio, fin)
             suma_s += lista[saco]
-            #lista_s.append(lista[saco])
             if saco == inicio:
+                res.append("Primera moneda para Sophia")
                 inicio += 1
             else:
+                res.append("Última moneda para Sophia")
                 fin -= 1
             turno = "m"
         else:
-            a = turno_m(lista, inicio, fin)
-            suma_m += lista[a]
-            #lista_m.append(lista[a])
-            if a == inicio:
+            saco = turno_m(lista, inicio, fin)
+            suma_m += lista[saco]
+            if saco == inicio:
+                res.append("Primera moneda para Mateo")            
                 inicio += 1
             else:
+                res.append("Última moneda para Mateo")                
                 fin -= 1
             turno = "s"
-    return suma_s, suma_m
+    return res, suma_s, suma_m
