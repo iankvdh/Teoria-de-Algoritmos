@@ -10,7 +10,7 @@ El repositorio está organizado en carpetas, cada una representando un trabajo p
 | ------ | -------- | ------ | ------ |
 | Ian  | von der Heyde | ivon@fi.uba.ar | 107638 |
 | Juan Martín | de la Cruz | jdelacruz@fi.uba.ar | 109588 |
-| Valentín | Schneider | v@fi.uba.ar | 107964 |
+| Valentín | Schneider | vschneider@fi.uba.ar | 107964 |
 
 -----------------
 ### Estructura del Repositorio
