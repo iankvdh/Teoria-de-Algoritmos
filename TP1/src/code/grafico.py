@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy as sp
 import numpy as np
 from scipy.optimize import curve_fit
-from tp1 import jugar
+from TP1.code.implementacion_optima import jugar
 
 def leer_numeros_desde_txt(nombre_archivo):
     nombre_archivo = "data/" + nombre_archivo
