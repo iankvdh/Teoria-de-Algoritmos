@@ -1,6 +1,5 @@
 import time
 import matplotlib.pyplot as plt
-import scipy as sp
 import numpy as np
 from scipy.optimize import curve_fit
 from implementacion_optima import jugar
