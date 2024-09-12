@@ -6,7 +6,7 @@ from implementacion_optima import jugar
 import random
 
 
-N = 100
+N = 1000
 
 def leer_numeros_desde_txt(nombre_archivo):
     nombre_archivo = 'data/' + nombre_archivo
