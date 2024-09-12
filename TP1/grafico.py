@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 from implementacion_optima import jugar
+import random
+
+
+N = 100
 
 def leer_numeros_desde_txt(nombre_archivo):
     nombre_archivo = 'data/' + nombre_archivo
@@ -40,9 +44,59 @@ def mostrar_cantidad_vs_tiempo(tamaños, tiempos):
     plt.grid(True)
     plt.show()
 
+def mostrar_cantidad_vs_puntos(tamaños, puntos_s, puntos_m):
+    tamanios = np.array(tamaños)
+    puntos_s = np.array(puntos_s)
+    puntos_m = np.array(puntos_m)   
+
+    plt.scatter(tamanios, puntos_s, label='Sophia')
+    plt.scatter(tamanios, puntos_m, label='Mateo')
+    plt.title("Puntos de Sophia y Mateo vs Cantidad de elementos")
+    plt.plot(tamaños, puntos_s, marker='o')
+    plt.plot(tamaños, puntos_m, marker='o')
+
+    plt.xlabel("Cantidad de elementos en la lista")
+    plt.ylabel("Cantidad de Puntos")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+def mostrar_veces_que_gano_sofia(victorias_sofia):
+    tamanios = np.arange(1, len(victorias_sofia)+1)
+    victorias_sofia = np.array(victorias_sofia)
+    plt.scatter(tamanios, victorias_sofia, label='Victoria')
+    plt.title("Veces que ganó Sophia vs Cantidad de juegos")
+    plt.plot(tamanios, victorias_sofia, marker='o')
+
+    plt.xlabel("Cantidad de juegos")
+    plt.ylabel("1 si ganó Sophia, 0 si no")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+
+def jugar_n_juegos(n):
+
+    victorias_sofia = []
+
+    for i in range(n):
+        lista = random.sample(range(1, 999), 100)
+        _, suma_sofia, suma_mateo = jugar(lista)
+        
+        diferencia = suma_sofia - suma_mateo
+        if diferencia > 0:
+            victorias_sofia.append(1)
+        else:
+            victorias_sofia.append(0)
+    mostrar_veces_que_gano_sofia(victorias_sofia)
+
+
+
 def main():
     listas = []
     tamaños = []
+    puntos_sofia = []
+    puntos_mateo = []
 
     for i in ["20.txt","25.txt","50.txt","100.txt","1000.txt","5000.txt","10000.txt","15000.txt","20000.txt", "25000.txt", "30000.txt"]:
         lista = leer_numeros_desde_txt(i)
@@ -53,10 +107,16 @@ def main():
 
     for i in listas:
         inicio = time.perf_counter()
-        jugar(i)
+        _, suma_sofia, suma_mateo = jugar(i)
+        puntos_sofia.append(suma_sofia)
+        puntos_mateo.append(suma_mateo)
         fin = time.perf_counter()
         tiempos.append( (fin - inicio) * 1000) # Convertir el tiempo a milisegundos
 
+    jugar_n_juegos(N)
+
+
     mostrar_cantidad_vs_tiempo(tamaños, tiempos)
+    mostrar_cantidad_vs_puntos(tamaños, puntos_sofia, puntos_mateo)
 
 main()
