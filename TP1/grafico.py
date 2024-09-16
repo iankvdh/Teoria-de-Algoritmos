@@ -5,7 +5,6 @@ from scipy.optimize import curve_fit
 from implementacion_optima import jugar
 import random
 
-
 N = 1000
 
 def leer_numeros_desde_txt(nombre_archivo):
@@ -74,7 +73,6 @@ def mostrar_veces_que_gano_sofia(victorias_sofia):
     plt.grid(True)
     plt.show()
 
-
 def jugar_n_juegos(n):
 
     victorias_sofia = []
@@ -89,8 +87,6 @@ def jugar_n_juegos(n):
         else:
             victorias_sofia.append(0)
     mostrar_veces_que_gano_sofia(victorias_sofia)
-
-
 
 def main():
     listas = []
@@ -114,8 +110,6 @@ def main():
         tiempos.append( (fin - inicio) * 1000) # Convertir el tiempo a milisegundos
 
     jugar_n_juegos(N)
-
-
     mostrar_cantidad_vs_tiempo(tamaños, tiempos)
     mostrar_cantidad_vs_puntos(tamaños, puntos_sofia, puntos_mateo)
 

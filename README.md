@@ -30,20 +30,21 @@ El repositorio está organizado en carpetas, cada una representando un trabajo p
 
 1. **Clone el repositorio**:
    ```
-   git clone 
+   git clone https://github.com/juandelaHD/TDA-FIUBA-75.29.git
    ```
-2. **Navegue hacia el trabajo práctico deseado**:
+2. **Instale las depencias requeridas**:
+   ```
+   sudo apt install python3-pip && pip3 install matplotlib scipy
+   ```
+3. **Navegue hacia el trabajo práctico deseado**:
    ```
    cd <tp>
    ```
    Reemplace `<tp>` con el nombre de las carpeta que contenga el trabajo práctico que quiera revisar, ej., `cd TP1`
-3. **Instale las depencias requeridas**:
-   ```
-   [...]
-   ```
 4. **Corra las pruebas**:
    ```
-   [...]
+   py <archivo>
    ```
+   Reemplace `<archivo>` con el nombre del archivo .py que desee ejecutar, ej., `py grafico.py`
 -----------------
 
