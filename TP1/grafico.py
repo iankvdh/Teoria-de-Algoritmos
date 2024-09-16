@@ -1,15 +1,10 @@
+import sys
 import time
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy.optimize import curve_fit
 from implementacion_optima import jugar
-import random
 from src.auxiliares import *
 from src.jugar_n_juegos import jugar_n_juegos
 from src.cant_vs_tiempo import mostrar_cantidad_vs_tiempo
 from src.cant_vs_puntos import mostrar_cantidad_vs_puntos
-
-N = 1000
 
 def main():
     listas = []
@@ -30,10 +25,23 @@ def main():
         puntos_sofia.append(suma_sofia)
         puntos_mateo.append(suma_mateo)
         fin = time.perf_counter()
-        tiempos.append( (fin - inicio) * 1000) # Convertir el tiempo a milisegundos
+        tiempos.append( (fin - inicio) * 1000) # milisegundos
 
-    jugar_n_juegos(N)
-    mostrar_cantidad_vs_tiempo(tamaños, tiempos)
-    mostrar_cantidad_vs_puntos(tamaños, puntos_sofia, puntos_mateo)
+    if len(sys.argv) > 1:
+        grafico = sys.argv[2]
+        if grafico == "tiempo_vs_cantidad":
+            mostrar_cantidad_vs_tiempo(tamaños, tiempos)
+        elif grafico == "puntos_vs_cantidad":
+            mostrar_cantidad_vs_puntos(tamaños, puntos_sofia, puntos_mateo)
+        elif grafico == "victorias_sofia":
+            if len(sys.argv) > 3:
+                n = int(sys.argv[4])
+                jugar_n_juegos(n)
+            else:
+                jugar_n_juegos()
+        else:
+            print("Opción no válida.")
+    else:
+        print("Por favor, ejecute directamente el archivo {ejecutar_graficos.sh}.")
 
 main()

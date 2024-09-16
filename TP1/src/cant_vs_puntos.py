@@ -1,9 +1,5 @@
-import time
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.optimize import curve_fit
-from implementacion_optima import jugar
-import random
 from src.auxiliares import *
 
 def mostrar_cantidad_vs_puntos(tamaños, puntos_s, puntos_m):
