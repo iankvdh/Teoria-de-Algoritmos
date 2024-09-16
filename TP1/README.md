@@ -12,9 +12,9 @@ Este proyecto implementa una serie de gráficos y simulaciones para analizar el 
 📁 TP1/
 │
 ├── 📂 data/                      # Contiene archivos de texto con los datos de entrada
-├── 🖼️ img/                       # Carpeta para almacenar las imágenes generadas (opcional)
-├── 📈 grafico.py                 # Script principal para generar gráficos
-├── ⚙️ implementacion_optima.py   # Implementación de los algoritmos utilizados en la simulación
+├── 🖼️ img/                       # Carpeta para almacenar las imágenes generadas
+├── 📈 grafico.py                 # Código principal para generar gráficos
+├── ⚙️ implementacion_optima.py   # Implementación del algoritmo Greedy utilizado en las simulaciones
 ├── 📄 Informe_TP1.pdf            # Informe detallado del proyecto
 ├── 📑 README.md                  # Documentación del proyecto
 └── ▶️ ejecutar_graficos.sh       # Script bash para ejecutar los gráficos
