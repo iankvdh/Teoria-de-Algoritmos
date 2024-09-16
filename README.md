@@ -34,7 +34,7 @@ El repositorio está organizado en carpetas, cada una representando un trabajo p
    ```
 2. **Instale las depencias requeridas**:
    ```
-   sudo apt install python3-pip && pip3 install matplotlib scipy
+   sudo apt install python3-pip && pip install matplotlib scipy numpy
    ```
 3. **Navegue hacia el trabajo práctico deseado**:
    ```
