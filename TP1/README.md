@@ -32,13 +32,50 @@ Antes de ejecutar el script, asegúrese de tener instalados los siguientes requi
 
 Puede instalar estas dependencias como se detalla en [README.md](../README.md):
 
-### Cómo ejecutar el script
+### Cómo ejecutar el programa
 
 #### 1. Clonar el repositorio o descargar los archivos
 
 Primero, asegúrese de que todos los archivos necesarios estén presentes en su directorio de trabajo, como se detalla en [README.md](../README.md).
 
-#### 2. Dar permisos de ejecución al script
+#### 2. Ejecución desde la terminal
+
+##### Formato de los archivos de entrada
+
+Los archivos de entrada **deben estar en formato `.txt`** y deben ser situados en la carpeta **data**. Además deben contener **únicamente valores numéricos** separados por `;`. Asegúrate de que no haya otros caracteres, como letras o símbolos, en el archivo. El programa ignorará cualquier línea de comentario que comience con `#`.
+
+##### Ejemplo de archivo de entrada válido:
+```
+406;691;451;628;950;324;906;34;345;647;589;585;728;338;598;362;999;227;248;863;852;344;166;153;778
+```
+Para ejecutar el programa pasando por parámetro un archivo con los datos de monedas, sigue los siguientes pasos:
+
+1. Abre la terminal y navega al directorio donde está el archivo `main.py`.
+
+2. Ejecuta el siguiente comando, reemplazando `nombre_archivo.txt` por el nombre del archivo de entrada (que debe estar ubicado en la carpeta `data`):
+
+   ```bash
+   python main.py nombre_archivo.txt
+   ```
+
+#### Detalles de la Ejecución:
+Al ejecutar el programa, este procesará el archivo, simulará el juego y devolverá la secuencia de jugadas junto con el total de monedas obtenidas por Sophia y Mateo.
+
+El archivo de entrada no requiere que conozcas la solución esperada. El propósito de este programa es resolver el problema y determinar qué jugador obtiene la mayor cantidad de monedas con una estrategia óptima.
+
+#### Ejemplo de salida:
+   ```bash
+      Primera moneda para Sophia
+      Última moneda para Mateo
+      ...
+      Primera moneda para Sophia
+      Total de Sophia: 7328
+      Total de Mateo: 6682
+   ```
+
+### Cómo ejecutar los gráficos
+
+#### 1. Dar permisos de ejecución al script
 
 Antes de ejecutar el script `.sh`, asegúrese de otorgarle permisos de ejecución. Desde la terminal, navegue al directorio del proyecto y ejecute:
 
@@ -46,7 +83,7 @@ Antes de ejecutar el script `.sh`, asegúrese de otorgarle permisos de ejecució
 chmod +x ejecutar_graficos.sh
 ```
 
-#### 3. Ejecutar el script
+#### 2. Ejecutar el script
 
 Para ejecutar el script y seleccionar el gráfico deseado, simplemente ejecute el archivo `.sh` desde la terminal de la siguiente manera:
 
@@ -65,7 +102,7 @@ Se le presentarán tres opciones para generar gráficos:
 3. **X victorias de Sophia vs Cantidad de juegos simulados:**  
    Simula `n` juegos y muestra un gráfico con las veces que ganó Sophia.
 
-#### 4. Simulación personalizada
+#### 3. Simulación personalizada
 
 Si elige la opción 3 para simular los juegos de Sophia y Mateo, se le pedirá que ingrese la cantidad de juegos a simular. Puede dejar el campo vacío para usar un valor predeterminado (1000) o ingresar un número entero positivo menor o igual a 10,000. En caso de ingresar un valor mayor a 10,000, se mostrará un mensaje de error.
 
@@ -73,7 +110,7 @@ Si elige la opción 3 para simular los juegos de Sophia y Mateo, se le pedirá q
 Ingrese la cantidad de juegos a simular (o deje en blanco para valor por defecto): 
 ```
 
-#### 5. Ejemplo de Ejecución
+#### 4. Ejemplo de Ejecución
 
 ```
 Seleccione qué gráfico desea ejecutar:

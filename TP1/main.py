@@ -1,3 +1,6 @@
+import sys
+from src.auxiliares import leer_numeros_desde_txt
+
 def turno_s(lista, inicio, fin):
     return inicio if lista[inicio] >= lista[fin] else fin
 
@@ -33,3 +36,18 @@ def jugar(lista):
                 fin -= 1
             turno = "s"
     return res, suma_s, suma_m
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Uso: python main.py <nombre_archivo.txt>")
+        sys.exit(1)
+
+    nombre_archivo = sys.argv[1]
+    lista = leer_numeros_desde_txt(nombre_archivo)
+    
+    resultado, suma_s, suma_m = jugar(lista)
+    
+    print("\n".join(resultado))
+    print(f"Total de Sophia: {suma_s}")
+    print(f"Total de Mateo: {suma_m}")

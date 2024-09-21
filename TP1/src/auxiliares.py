@@ -2,7 +2,10 @@ def leer_numeros_desde_txt(nombre_archivo):
     nombre_archivo = 'data/' + nombre_archivo
 
     with open(nombre_archivo, 'r') as archivo:
-        contenido = archivo.read().strip()  
+        lineas = archivo.readlines()
+        if lineas[0].startswith('#'):
+            lineas = lineas[1:]
+        contenido = ''.join(lineas).strip() 
         numeros_str = contenido.split(';')  
         numeros = [int(num) for num in numeros_str]  
     return numeros

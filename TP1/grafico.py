@@ -1,10 +1,13 @@
 import sys
+import os
 import time
-from implementacion_optima import jugar
+from main import jugar
 from src.auxiliares import *
 from src.jugar_n_juegos import jugar_n_juegos
 from src.cant_vs_tiempo import mostrar_cantidad_vs_tiempo
 from src.cant_vs_puntos import mostrar_cantidad_vs_puntos
+
+CARPETA = 'data'
 
 def main():
     listas = []
@@ -12,9 +15,17 @@ def main():
     puntos_sofia = []
     puntos_mateo = []
 
-    for i in ["20.txt","25.txt","50.txt","100.txt","1000.txt","5000.txt","10000.txt","15000.txt","20000.txt", "25000.txt", "30000.txt"]:
-        lista = leer_numeros_desde_txt(i)
+    carpeta_data = CARPETA
+    archivos_txt = [f for f in os.listdir(carpeta_data) if f.endswith('.txt')]
+
+    for archivo in archivos_txt:
+        ruta_archivo = os.path.join(carpeta_data, archivo) 
+        print(f"Procesando el archivo: {ruta_archivo}")
+        lista = leer_numeros_desde_txt(archivo)
         listas.append(lista)
+        
+    listas.sort(key=len)
+    for lista in listas:
         tamaños.append(len(lista))
 
     tiempos = []
