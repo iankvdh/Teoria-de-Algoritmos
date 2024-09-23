@@ -9,7 +9,7 @@ from src.cant_vs_puntos import mostrar_cantidad_vs_puntos
 
 CARPETA = 'data'
 
-def main():
+def ejecutar_graficos():
     listas = []
     tamaños = []
     puntos_sofia = []
@@ -20,7 +20,6 @@ def main():
 
     for archivo in archivos_txt:
         ruta_archivo = os.path.join(carpeta_data, archivo) 
-        print(f"Procesando el archivo: {ruta_archivo}")
         lista = leer_numeros_desde_txt(archivo)
         listas.append(lista)
         
@@ -55,4 +54,4 @@ def main():
     else:
         print("Por favor, ejecute directamente el archivo {ejecutar_graficos.sh}.")
 
-main()
+ejecutar_graficos()

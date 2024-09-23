@@ -19,7 +19,7 @@ El repositorio está organizado en carpetas, cada una representando un trabajo p
   ├── 📄 README-TP1.md
   ├── 📊 Informe-TP1.pdf
   ├── 📂 src/... 
-  ├── 📂 tests/...
+  ├── 📂 img/...
 [...]
 ```
 
@@ -41,10 +41,7 @@ El repositorio está organizado en carpetas, cada una representando un trabajo p
    cd <tp>
    ```
    Reemplace `<tp>` con el nombre de las carpeta que contenga el trabajo práctico que quiera revisar, ej., `cd TP1`
-4. **Corra las pruebas**:
-   ```
-   py <archivo>
-   ```
-   Reemplace `<archivo>` con el nombre del archivo .py que desee ejecutar, ej., `py grafico.py`
+4. **Ejecute el archivo deseado**:
+   Cada trabajo práctico tiene asociado un README.md, que contiene las instrucciones para ejecutar sets de datos personalizados como también diferentes pruebas.
 -----------------
 

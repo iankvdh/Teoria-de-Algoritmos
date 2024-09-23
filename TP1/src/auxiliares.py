@@ -1,5 +1,8 @@
+import os
+
 def leer_numeros_desde_txt(nombre_archivo):
-    nombre_archivo = 'data/' + nombre_archivo
+    if not os.path.isabs(nombre_archivo):
+        nombre_archivo = 'data/' + nombre_archivo
 
     with open(nombre_archivo, 'r') as archivo:
         lineas = archivo.readlines()

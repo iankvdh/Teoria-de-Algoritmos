@@ -1,3 +1,4 @@
+import os
 import sys
 from src.auxiliares import leer_numeros_desde_txt
 
@@ -37,17 +38,24 @@ def jugar(lista):
             turno = "s"
     return res, suma_s, suma_m
 
+def cargar_set_datos(ruta_archivo_abs):
+    try:
+        if os.path.isabs(ruta_archivo_abs):
+            lista = leer_numeros_desde_txt(ruta_archivo_abs)
+            resultado, suma_s, suma_m = jugar(lista)
+            print("\n".join(resultado))
+            print("--------------------")
+            print(f"Total de Sophia: {suma_s}")
+            print(f"Total de Mateo: {suma_m}")
+        else:
+            print("La ruta no es absoluta.")
+    except Exception as e:
+        print("Error al cargar el archivo: ", e)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Uso: python main.py <nombre_archivo.txt>")
+        print("Ejecute de la siguiente manera: python main.py <ruta_absoluta_set_datos>")
         sys.exit(1)
 
-    nombre_archivo = sys.argv[1]
-    lista = leer_numeros_desde_txt(nombre_archivo)
-    
-    resultado, suma_s, suma_m = jugar(lista)
-    
-    print("\n".join(resultado))
-    print(f"Total de Sophia: {suma_s}")
-    print(f"Total de Mateo: {suma_m}")
+    ruta_abs = sys.argv[1]
+    cargar_set_datos(ruta_abs)
