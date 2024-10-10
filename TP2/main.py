@@ -18,13 +18,13 @@ def optimal_game(coins):
         left = dp_table[i][j - 1]
         down = dp_table[i + 1][j]
 
-        choice_i = coins[i] + min(down[0], down[1])
-        choice_j = coins[j] + min(left[0], left[1])
+        choice_i = coins[i] + down[1]
+        choice_j = coins[j] + left[1] 
         if choice_i > choice_j:
-            mateo_choice = max(down[0], down[1])
+            mateo_choice = down[0]
             sophia_choice = choice_i
         else:
-            mateo_choice = max(left[0], left[1])
+            mateo_choice =left[0]
             sophia_choice = choice_j    
 
         dp_table[i][j] = (sophia_choice,mateo_choice) 
@@ -119,8 +119,9 @@ def coin_game(coins):
     
 
 # Ejemplo de uso
-#coins = [8, 15, 3, 7]
-coins = [3, 2, 2, 3, 1, 2]     
+coins = [8, 15, 3, 7]
+coins = [3, 9, 2, 7] 
+coins = [3, 2, 2, 3, 1, 2]        
 coin_game(coins)
 
 
