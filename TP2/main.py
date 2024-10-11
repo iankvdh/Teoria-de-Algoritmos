@@ -2,8 +2,8 @@ from src.auxiliares import leer_numeros_desde_txt
 import os
 import sys
 
-SOPHIA = 0
-MATEO = 1
+PRIMER_MONEDA = 0
+ULTIMA_MONEDA = 1
 
 def optimal_game(coins):
     
@@ -24,7 +24,7 @@ def optimal_game(coins):
     iter_aux = j
     
     # OPT(i,j) = MAX(m_i + MIN(OPT(i+2, j), OPT(i+1, j-1), m_j + MIN(OPT(i+1,j-1), OPT(i,j-2)))
-
+    entre = 0
     while not (i == 0 and j == size):
         m_i = coins[i]
         m_j = coins[j]
@@ -36,7 +36,7 @@ def optimal_game(coins):
         min_opt_j = min(opt_centro, opt_der)
 
         ganancia = max(m_i + min_opt_i, m_j + min_opt_j)
-        
+
         if m_i + min_opt_i >= m_j + min_opt_j:
             de_donde_vengo = min_opt_i
         else:
@@ -54,41 +54,49 @@ def optimal_game(coins):
     for row in dp_table:
         print(row)
 
-    return dp_table[0][size-1][0]
+    return dp_table
 
 
 def reconstruccion(dp_table, coins):
-    # jumas ian y valen del futuro:
-    # para reconstruir hay que hacer actual[0] - actual[1]
-    # y fijarse si eso es igual a coins[i] o coins[j]
-
     res = [None] * len(coins)
     i = 0
     j = len(coins) - 1
-    turn = SOPHIA
+    turno = 0
 
     while i <= j:
-        left = dp_table[i][j - 1]
-        down = dp_table[i + 1][j]
+        diferencia = dp_table[i][j][0] - dp_table[i][j][1]
 
-        profit_sophia = dp_table[i][j][0]
+        if turno % 2 == 0:
+            # Juega Sophia
+            if coins[i] == diferencia:
 
-        if turn == SOPHIA:
-            if coins[i] + down[1] == profit_sophia:
-                res[i] = SOPHIA
-                i += 1
+                if coins[i] == coins[j]:
+                    down = dp_table[i+1][j][0]
+                    left = dp_table[i][j-1][0]
+
+                    if down > left:
+                        res[turno] = ULTIMA_MONEDA
+                        j -= 1
+                    else:
+                        res[turno] = PRIMER_MONEDA
+                        i += 1
+                else:                
+                    res[turno] = PRIMER_MONEDA
+                    i += 1
             else:
-                res[j] = SOPHIA
+                res[turno] = ULTIMA_MONEDA
                 j -= 1
         else:
+            # Juega Mateo
             if coins[i] > coins[j]:
-                res[i] = MATEO
+                res[turno] = PRIMER_MONEDA
                 i += 1
-            else:    
-                res[j] = MATEO
+            else:
+                res[turno] = ULTIMA_MONEDA
                 j -= 1
+        
+        turno += 1
 
-        turn = MATEO if turn == SOPHIA else SOPHIA
     return res
 
 
@@ -96,25 +104,35 @@ def res_to_str(res, coins):
     res_str = []
     i = 0
     j = len(coins) - 1
-    turn = SOPHIA
 
-    while i <= j:
-        if turn == SOPHIA:
-            if res[i] == SOPHIA:
-                res_str.append(f"Primera moneda para Sophia {coins[i]}")
+    turno = 0
+    suma_sophia = 0
+    suma_mateo = 0
+    for jugada in res:
+        if turno % 2 == 0:
+            if jugada == PRIMER_MONEDA:
+                res_str.append(f"Sophia debe agarrar la primera ({coins[i]})")
+                suma_sophia += coins[i]
                 i += 1
             else:
-                res_str.append(f"Última moneda para Sophia {coins[j]}")
+                res_str.append(f"Sophia debe agarrar la ultima ({coins[j]})")
+                suma_sophia += coins[j]
                 j -= 1
-        else:  
-            if res[i] == MATEO:
-                res_str.append(f"Primera moneda para Mateo {coins[i]}")
+        else:
+            if jugada == PRIMER_MONEDA:
+                res_str.append(f"Mateo agarra la primera ({coins[i]})")
+                suma_mateo += coins[i]
                 i += 1
             else:
-                res_str.append(f"Última moneda para Mateo {coins[j]}")
+                res_str.append(f"Mateo agarra la ultima ({coins[j]})")
+                suma_mateo += coins[j]
                 j -= 1
-
-        turn = MATEO if turn == SOPHIA else SOPHIA
+        turno += 1
+    print("suma sofia:", suma_sophia)
+    print("suma mateo:", suma_mateo)
+    total = sum(coins)
+    print("total:", sum(coins))
+    print("diferencia:", sum(coins) - suma_sophia - suma_mateo)
     return res_str
 
 
@@ -137,7 +155,11 @@ def cargar_set_datos(ruta_archivo_abs):
         if os.path.isabs(ruta_archivo_abs):
             lista = leer_numeros_desde_txt(ruta_archivo_abs)
             #resultado, suma_s, suma_m =
-            print(optimal_game(lista))
+            dp_table = optimal_game(lista)
+            res = reconstruccion(dp_table, lista)
+            resultado = res_to_str(res, lista)
+            print("\n".join(resultado))
+            print(dp_table[0][-1][0])
             # print("\n".join(resultado))
             # print("--------------------")
             # print(f"Total de Sophia: {suma_s}")
