@@ -2,9 +2,9 @@ from src.auxiliares import leer_numeros_desde_txt
 import os
 import sys
 
-
 SOPHIA = 0
 MATEO = 1
+
 def optimal_game(coins):
     
     size = len(coins)
@@ -62,7 +62,6 @@ def reconstruccion(dp_table, coins):
     # para reconstruir hay que hacer actual[0] - actual[1]
     # y fijarse si eso es igual a coins[i] o coins[j]
 
-    
     res = [None] * len(coins)
     i = 0
     j = len(coins) - 1
@@ -91,7 +90,6 @@ def reconstruccion(dp_table, coins):
 
         turn = MATEO if turn == SOPHIA else SOPHIA
     return res
-
 
 
 def res_to_str(res, coins):
