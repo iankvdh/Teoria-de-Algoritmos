@@ -134,12 +134,6 @@ def coin_game(coins):
     print("max_profit S", max_profit[0])
     print("max_profit M:", max_profit[1],"\n")
 
-# Ejemplo de uso
-#coins = [8, 15, 3, 7]
-# coins = [3, 2, 2, 3, 1, 2]     
-# coin_game(coins)
-
-
 def cargar_set_datos(ruta_archivo_abs):
     try:
         if os.path.isabs(ruta_archivo_abs):
