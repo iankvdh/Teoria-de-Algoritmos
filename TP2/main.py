@@ -125,10 +125,10 @@ def cargar_set_datos(ruta_archivo_abs):
             monedas_sophia = reconstruir_monedas_tomadas_por_sophia(coins, dp_table)
             
             rec_str, puntos_sophia, puntos_mateo = rec_to_str(monedas_sophia, coins)
-            #print("\n".join(rec_str))
+            print("\n".join(rec_str))
             #print("monedas_sophia: ", monedas_sophia)
-            #print("Ganancia Sophia: ", puntos_sophia)
-            #print("Ganancia Mateo: ", puntos_mateo)
+            print("Ganancia Sophia: ", puntos_sophia)
+            print("Ganancia Mateo: ", puntos_mateo)
         else:
             print("La ruta no es absoluta.")
     except Exception as e:
@@ -239,6 +239,6 @@ if __name__ == "__main__":
     linea = "Sophia debe agarrar la ultima (217); Mateo agarra la primera (455); Sophia debe agarrar la primera (852); Mateo agarra la primera (725); Sophia debe agarrar la ultima (378); Mateo agarra la primera (410); Sophia debe agarrar la primera (835); Mateo agarra la primera (239); Sophia debe agarrar la ultima (125); Mateo agarra la primera (404); Sophia debe agarrar la primera (462); Mateo agarra la primera (629); Sophia debe agarrar la primera (587); Mateo agarra la primera (171); Sophia debe agarrar la primera (604); Mateo agarra la primera (826); Sophia debe agarrar la primera (838); Mateo agarra la primera (384); Sophia debe agarrar la primera (336); Mateo agarra la ultima (21)"
     
     cargar_set_datos(ruta_abs)
-    test_all()
+    #test_all()
 
 

@@ -31,7 +31,10 @@ def ejecutar_graficos():
 
     for i in listas:
         inicio = time.perf_counter()
-        _, suma_sofia, suma_mateo = jugar(i)
+        dp = jugar(i)
+        #CAMBIAR ESTO
+        suma_sofia = dp[0][-1]
+        suma_mateo = sum(i) - suma_sofia
         puntos_sofia.append(suma_sofia)
         puntos_mateo.append(suma_mateo)
         fin = time.perf_counter()
