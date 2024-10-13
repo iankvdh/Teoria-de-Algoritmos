@@ -29,11 +29,11 @@ def ejecutar_simulaciones_variabilidad(tamaños, niveles_variabilidad, tiempos_e
 
 def mostrar_tiempo_vs_variabilidad():
     # Lista de tamaños de ejemplos que vamos a probar
-    tamaños = range(10, 301, 10)  # de 10 a 300 monedas, en pasos de 10
+    tamaños = range(10, 1101, 10)  # de 10 a 300 monedas, en pasos de 10
 
     # Lista de niveles de variabilidad que queremos probar
-    niveles_variabilidad = [0.5, 1, 1.5, 2]
-    colores = ['b', 'orange', 'g', 'r']  # Colores para el gráfico
+    niveles_variabilidad = [0.5, 1, 1.5, 2, 3, 4] 
+    colores = ['b', 'orange', 'g', 'r', 'yellow', 'purple']  # Colores para el gráfico
 
     # Diccionario para almacenar los tiempos de ejecución
     tiempos_ejecucion = {variabilidad: [] for variabilidad in niveles_variabilidad}
