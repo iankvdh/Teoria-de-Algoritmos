@@ -6,6 +6,7 @@ from src.auxiliares import *
 
 N = 1000
 RANDOM_RANGE = range(1, 999)
+CANT_MONEDAS = 100
 VIC_SOPHIA = 1
 VIC_MATEO = 0
 
@@ -27,9 +28,10 @@ def jugar_n_juegos(n = N):
     victorias_sofia = []
 
     for i in range(n):
-        lista = random.sample(RANDOM_RANGE, 100)
-        _, suma_sofia, suma_mateo = jugar(lista)
-        
+        lista = random.sample(RANDOM_RANGE, CANT_MONEDAS)
+        dp = jugar(lista)
+        suma_sofia = dp[0][-1]
+        suma_mateo = sum(lista) - suma_sofia
         diferencia = suma_sofia - suma_mateo
         if diferencia > 0:
             victorias_sofia.append(VIC_SOPHIA)
