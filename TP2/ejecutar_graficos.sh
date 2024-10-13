@@ -2,8 +2,9 @@ echo "Seleccione qué gráfico desea ejecutar:"
 echo "1) Tiempo de ejecución vs Cantidad de elementos"
 echo "2) Puntos de Sophia y Mateo vs Cantidad de elementos"
 echo "3) X victorias de Sophia vs Cantidad de juegos simulados"
+echo "4) Tiempo de ejecución vs Variabilidad de elementos"
 
-read -p "Ingrese una opción (1-3): " opcion
+read -p "Ingrese una opción (1-4): " opcion
 
 case $opcion in
     1)
@@ -39,6 +40,9 @@ case $opcion in
                     ;;
             esac
         done
+        ;;
+    4)
+        py grafico.py --grafico tiempo_vs_variabilidad
         ;;
     *)
         echo "Opción no válida"
