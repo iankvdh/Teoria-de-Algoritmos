@@ -59,8 +59,7 @@ Primero, asegúrese de que todos los archivos necesarios estén presentes en su 
 
 Los archivos de entrada **deben estar en formato `.txt`** y pueden estar ubicados en cualquier carpeta, pero es necesario que al ejecutar el programa se proporcione la **ruta absoluta** del archivo. Además, deben contener **únicamente valores numéricos** separados por `;`. Asegúrate de que no haya otros caracteres, como letras o símbolos, en el archivo. El programa ignorará cualquier línea de comentario que comience con `#`.
 
-> .[!IMPORTANT].
-> Si desea que su archivo de entrada sea integrado en la ejecución de gráficos, deberá agregarlo a la carpeta `/data`. 
+> ⚠️ **Importante**: Si desea que su archivo de entrada sea integrado en la ejecución de gráficos, deberá agregarlo a la carpeta `/data`. 
 
 > Para ejecutar los gráficos, lea la sección [Cómo ejecutar los gráficos](#cómo-ejecutar-los-gráficos).
 
