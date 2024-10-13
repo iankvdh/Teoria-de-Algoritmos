@@ -3,8 +3,9 @@ echo "1) Tiempo de ejecución vs Cantidad de elementos"
 echo "2) Puntos de Sophia y Mateo vs Cantidad de elementos"
 echo "3) X victorias de Sophia vs Cantidad de juegos simulados"
 echo "4) Tiempo de ejecución vs Variabilidad de elementos"
+echo "5) Tiempo de ejecución de la Reconstruccion vs Cantidad de elementos"
 
-read -p "Ingrese una opción (1-4): " opcion
+read -p "Ingrese una opción (1-5): " opcion
 
 case $opcion in
     1)
@@ -43,6 +44,9 @@ case $opcion in
         ;;
     4)
         py grafico.py --grafico tiempo_vs_variabilidad
+        ;;
+    5)
+        py grafico.py --grafico reconstruccion_vs_tiempo
         ;;
     *)
         echo "Opción no válida"

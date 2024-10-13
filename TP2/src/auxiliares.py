@@ -1,6 +1,10 @@
 import os
 
 def leer_numeros_desde_txt(nombre_archivo):
+    """
+    Lee un archivo de texto y devuelve una lista con los números que contiene.
+    Si el archivo tiene comentarios, los ignora.
+    """
     if not os.path.isabs(nombre_archivo):
         nombre_archivo = 'data/' + nombre_archivo
 

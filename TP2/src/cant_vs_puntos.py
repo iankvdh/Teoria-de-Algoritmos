@@ -3,6 +3,10 @@ import numpy as np
 from src.auxiliares import *
 
 def mostrar_cantidad_vs_puntos(tamaños, puntos_s, puntos_m):
+    """
+    Muestra un gráfico con los puntos de Sophia y Mateo en función 
+    de la cantidad de elementos en la lista.
+    """
     tamanios = np.array(tamaños)
     puntos_s = np.array(puntos_s)
     puntos_m = np.array(puntos_m)   

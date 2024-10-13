@@ -3,11 +3,16 @@ import time
 import matplotlib.pyplot as plt
 from main import jugar
 
-# Función para generar arreglos de monedas con diferentes niveles de variabilidad
 def generar_monedas(tamaño, variabilidad):
+    """
+    Genera un arreglo de monedas con un tamaño dado y un nivel de variabilidad
+    """
     return np.random.randint(1, int(100 * variabilidad), tamaño)
 
 def ejecutar_simulaciones_variabilidad(tamaños, niveles_variabilidad, tiempos_ejecucion):
+    """
+    Ejecuta la simulación para cada tamaño y cada nivel de variabilidad
+    """
     for variabilidad in niveles_variabilidad:
         for tamaño in tamaños:
             # Generar el arreglo de monedas con el nivel de variabilidad dado
@@ -33,10 +38,8 @@ def mostrar_tiempo_vs_variabilidad():
     # Diccionario para almacenar los tiempos de ejecución
     tiempos_ejecucion = {variabilidad: [] for variabilidad in niveles_variabilidad}
 
-    # Ejecutar la simulación para cada tamaño y cada nivel de variabilidad
     ejecutar_simulaciones_variabilidad(tamaños, niveles_variabilidad, tiempos_ejecucion)
 
-    # Graficar los resultados
     plt.figure(figsize=(10, 6))
 
     for i, variabilidad in enumerate(niveles_variabilidad):
