@@ -2,9 +2,9 @@ from src.auxiliares import leer_numeros_desde_txt
 import os
 import sys
 
-# python3 main.py ~/TDA/TDA-FIUBA-75.29/TP2/data/5.txt
-
 """
+*ECUACION DE RECURRENCIA*
+
 1) Si Sophia elige la primer moneda (coins[i]):
     option1= {
             coins[i]+dp[i+2][j], si coins[i+1]≥coins[j]
@@ -18,7 +18,6 @@ import sys
 
 OPT[i][j] = max(option1,option2)
 """
-
 
 def jugar(coins):
     n = len(coins)
@@ -126,7 +125,6 @@ def cargar_set_datos(ruta_archivo_abs):
             
             rec_str, puntos_sophia, puntos_mateo = rec_to_str(monedas_sophia, coins)
             print("\n".join(rec_str))
-            #print("monedas_sophia: ", monedas_sophia)
             print("Ganancia Sophia: ", puntos_sophia)
             print("Ganancia Mateo: ", puntos_mateo)
         else:
@@ -140,6 +138,5 @@ if __name__ == "__main__":
         sys.exit(1)
 
     ruta_abs = sys.argv[1]
- 
-    cargar_set_datos(ruta_abs)
 
+    cargar_set_datos(ruta_abs)

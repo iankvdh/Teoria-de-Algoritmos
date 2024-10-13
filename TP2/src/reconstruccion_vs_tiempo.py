@@ -1,13 +1,17 @@
+import time
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 from src.auxiliares import *
+from main import jugar
+from main import reconstruir_monedas_tomadas_por_sophia
 
-def reconstruccion_vs_tiempo(tamaños, tiempos):
+def reconstruccion_vs_tiempo(tamaños, listas):
     """
     Muestra un gráfico con los tiempos de reconstruccion en función 
     de la cantidad de elementos en la lista.
     """
+    tiempos = reconstruir_muchos_arreglos(listas)
     tamanios = np.array(tamaños)
     tiempos = np.array(tiempos)   
 
@@ -26,3 +30,20 @@ def reconstruccion_vs_tiempo(tamaños, tiempos):
     plt.legend()
     plt.grid(True)
     plt.show()
+
+def reconstruir_muchos_arreglos(listas):
+    """
+    Dada una lista de listas de monedas, devuelve una lista con los tiempos de 
+    reconstrucción de cada una de las listas. Además, devuelve dos listas con 
+    los puntos de Sofia y Mateo respectivamente.
+    """
+    tiempos = []
+
+    for i in listas:
+        dp = jugar(i)
+        inicio = time.perf_counter()
+        reconstruir_monedas_tomadas_por_sophia(i, dp)
+        fin = time.perf_counter()
+        tiempos.append( (fin - inicio) * 1000) # milisegundos
+
+    return tiempos
