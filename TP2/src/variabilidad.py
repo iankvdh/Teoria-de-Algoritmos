@@ -3,11 +3,7 @@ import time
 import matplotlib.pyplot as plt
 from main import jugar
 
-def generar_monedas(tamaño, variabilidad):
-    """
-    Genera un arreglo de monedas con un tamaño dado y un nivel de variabilidad
-    """
-    return np.random.randint(1, int(100 * variabilidad), tamaño)
+from src.auxiliares import generar_monedas
 
 def ejecutar_simulaciones_variabilidad(tamaños, niveles_variabilidad, tiempos_ejecucion):
     """

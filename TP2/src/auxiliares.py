@@ -1,4 +1,5 @@
 import os
+import numpy as np
 
 def leer_numeros_desde_txt(nombre_archivo):
     """
@@ -22,3 +23,9 @@ def modelo_lineal(x, m, b):
 
 def modelo_cuadratico(x, a, b, c):
     return a * x**2 + b * x + c
+
+def generar_monedas(tamaño, variabilidad):
+    """
+    Genera un arreglo de monedas con un tamaño dado y un nivel de variabilidad
+    """
+    return np.random.randint(1, int(100 * variabilidad), tamaño)

@@ -80,8 +80,8 @@ def ejecutar_graficos():
         elif grafico == "tiempo_vs_variabilidad":
             mostrar_tiempo_vs_variabilidad()
         elif grafico == "reconstruccion_vs_tiempo":
-            tamaños, listas = monedas_desde_archivos()
-            reconstruccion_vs_tiempo(tamaños, listas)
+            #tamaños, listas = monedas_desde_archivos()            
+            reconstruccion_vs_tiempo()
         else:
             print("Opción no válida.")
 
