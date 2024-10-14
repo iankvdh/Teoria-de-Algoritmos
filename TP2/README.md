@@ -158,5 +158,5 @@ Ingrese una opción (1-5): 1
 
 #### Notas adicionales
 
-- Asegúrese de tener todos los archivos de datos necesarios en la carpeta `data/`, ya que los gráficos dependen de ellos.
+- Los graficos se generan con set de datos randoms, puede modificar los límites de los respectivos valores en las constantes de cada archivo dedicado a un gráfico.
 - En caso de que no se generen los gráficos o haya algún error en la ejecución, consulte los permisos de los archivos y asegúrese de tener instaladas las dependencias correctamente y estar en el directorio adecuado.

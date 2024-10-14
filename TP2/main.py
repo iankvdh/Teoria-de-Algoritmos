@@ -1,4 +1,4 @@
-from src.auxiliares import leer_numeros_desde_txt
+from src.lectura_archivos import leer_numeros_desde_txt
 import os
 import sys
 
@@ -115,6 +115,7 @@ def rec_to_str(rec, coins):
         turno += 1
     return rec_str, puntos_sophia, puntos_mateo
 
+
 def cargar_set_datos(ruta_archivo_abs):
     try:
         if os.path.isabs(ruta_archivo_abs):
@@ -131,6 +132,7 @@ def cargar_set_datos(ruta_archivo_abs):
             print("La ruta no es absoluta.")
     except Exception as e:
         print("Error al cargar el archivo: ", e)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
