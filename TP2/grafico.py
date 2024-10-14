@@ -18,9 +18,7 @@ def ejecutar_graficos():
             #tamaños, listas = monedas_desde_archivos()
             mostrar_cantidad_vs_tiempo()
         elif grafico == "puntos_vs_cantidad":
-            tamaños, listas = monedas_desde_archivos()
-            _, puntos_sofia, puntos_mateo = jugar_muchos_arreglos(listas)
-            mostrar_cantidad_vs_puntos(tamaños, puntos_sofia, puntos_mateo)
+            mostrar_cantidad_vs_puntos()
         elif grafico == "victorias_sofia":
             if len(sys.argv) > 3:
                 n = int(sys.argv[4])
