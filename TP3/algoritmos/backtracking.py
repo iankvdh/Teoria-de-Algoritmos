@@ -1,85 +1,140 @@
-from auxiliares import *
+import time
 
-"""
-Escribir un algoritmo que, por backtracking, obtenga la solución óptima al problema (valga la redundancia) en la versión de optimización: 
-Dado un tablero de n*m casilleros, y una lista de k barcos (donde el barco i tiene b_i de largo) una lista de las demandas de las n filas 
-y una lista de las m demandas de las columnas, dar la asignación de posiciones de los barcos de tal forma que se reduzca al mínimo la 
-cantidad de demanda incumplida. Pueden no utilizarse todos los barcos. Si simplemente no se cumple que una columna que debería tene 3 
-casilleros ocupados tiene 1, entonces contará como 2 de demanda incumplida. Por el contrario, no está permitido exceder la cantidad demandada. 
-Generar sets de datos para corroborar su correctitud, así como tomar mediciones de tiempos.
-"""
+class Batalla_Naval_2:
+    tablero = None
+    mejor_tablero = None
+    vacio = "-"
+    maxima_demanda_cumplida = 0  
+    n = 0
+    m = 0
+    
+    def __init__(self, restricciones_filas, restricciones_columnas, barcos):
+        self.n = len(restricciones_filas)
+        self.m = len(restricciones_columnas)
+        self.restricciones_filas = restricciones_filas[:]
+        self.restricciones_columnas = restricciones_columnas[:]
+        self.demanda_restante_filas = restricciones_filas[:]  
+        self.demanda_restante_columnas = restricciones_columnas[:]  
+        self.barcos = sorted(barcos, reverse=True)
+        self.tablero = [[self.vacio for _ in range(self.m)] for _ in range(self.n)]
+        self.mejor_tablero = [[self.vacio for _ in range(self.m)] for _ in range(self.n)]
+        self.bloques_disponibles = {(i, j) for i in range(self.n) for j in range(self.m)}
+        self.backtracking(0, 0)
 
-def bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos):
-    mejor_solucion = {
-        "demanda_incumplida": float('inf'),
-        "tablero": None
-    }
-    _bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos, 0, 0, mejor_solucion)
-    return mejor_solucion["tablero"]
+    def backtracking(self, indice, demanda_cumplida_actual):
 
-def _bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos, i, j, mejor_solucion):
-    n = len(tablero)
-    m = len(tablero[0])
+        if demanda_cumplida_actual + sum(self.barcos[indice:]) * 2 <= self.maxima_demanda_cumplida:
+            return
+        
+        if indice == len(self.barcos):
+            if demanda_cumplida_actual > self.maxima_demanda_cumplida:
+                self.maxima_demanda_cumplida = demanda_cumplida_actual
+                self.mejor_tablero = [fila[:] for fila in self.tablero]
+            return
+        
+        largo = self.barcos[indice]
+        bloques_vacios = self.get_bloques_disponibles()
 
-    if i == n:
-        demanda_incumplida = calcular_demanda_incumplida(tablero, restricciones_filas, restricciones_columnas)
-        if demanda_incumplida < mejor_solucion["demanda_incumplida"]:
-            mejor_solucion["demanda_incumplida"] = demanda_incumplida
-            mejor_solucion["tablero"] = [fila.copy() for fila in tablero]
-        return
-
-    if j == m:
-        _bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos, i + 1, 0, mejor_solucion)
-        return
-
-    if sum(tablero[i]) == restricciones_filas[i]:
-        _bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos, i + 1, 0, mejor_solucion)
-        return
-
-    if sum(tablero[fila][j] for fila in range(n)) == restricciones_columnas[j]:
-        _bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos, i, j + 1, mejor_solucion)
-        return
-
-    for barco in barcos:
-        if j + barco <= m:
-            barco_cabe = all(tablero[i][j + k] == 0 for k in range(barco))
-            if barco_cabe:
-                for k in range(barco):
-                    tablero[i][j + k] = BARCO
-                if es_compatible(tablero, restricciones_filas, restricciones_columnas, i, j, barco, HORIZONTAL):
-                    barcos_restantes = barcos.copy()
-                    barcos_restantes.remove(barco)
-                    _bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos_restantes, i, j + barco, mejor_solucion)
-                for k in range(barco):
-                    tablero[i][j + k] = 0
-
-        elif i + barco <= n:
-            barco_cabe = all(tablero[i + k][j] == 0 for k in range(barco))
-            if barco_cabe:
-                for k in range(barco):
-                    tablero[i + k][j] = BARCO
-                if es_compatible(tablero, restricciones_filas, restricciones_columnas, i, j, barco, VERTICAL):
-                    barcos_restantes = barcos.copy()
-                    barcos_restantes.remove(barco)
-                    _bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos_restantes, i, j + 1, mejor_solucion)
-                for k in range(barco):
-                    tablero[i + k][j] = 0
-
-    _bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos, i, j + 1, mejor_solucion)
+        for fila, col in bloques_vacios:
+            for orientacion in (0, 1):
+                if self.entra_en_el_tablero(fila, col, largo, orientacion) and not self.exede_demanda(fila, col, largo, orientacion):
+                    if not self.tiene_adyacentes(fila, col, largo, orientacion):
+                        self.colocar_barco(fila, col, orientacion, largo, str(indice))
+                        demanda_cumplida = self.contar_demanda_cumplida_de_barco(largo)
+                        self.backtracking(indice + 1, demanda_cumplida_actual + demanda_cumplida)
+                        self.quitar_barco(fila, col, largo, orientacion)
+        
+        if demanda_cumplida_actual + sum(self.barcos[indice:]) * 2 > self.maxima_demanda_cumplida:
+            self.backtracking(indice + 1, demanda_cumplida_actual)
 
 
-"""
-# Ejemplo de uso
-n = 3
-m = 3
-restricciones_filas = [3, 1, 2]
-restricciones_columnas = [3, 2, 0]
-barcos = [2, 2]
+    def entra_en_el_tablero(self, fila, col, largo, orientacion):
+        try:
+            if orientacion == 0:  # Horizontal
+                return all(self.tablero[fila][j] == self.vacio for j in range(col, col + largo))
+            else:  # Vertical
+                return all(self.tablero[i][col] == self.vacio for i in range(fila, fila + largo))
+        except IndexError:
+            return False
 
+    def exede_demanda(self, fila, col, largo, orientacion):
+        if orientacion == 0:  # Horizontal
+            if self.demanda_restante_filas[fila] < largo:
+                return True
+            if any(self.demanda_restante_columnas[j] < 1 for j in range(col, col + largo)):
+                return True
+        else:  # Vertical
+            if self.demanda_restante_columnas[col] < largo:
+                return True
+            if any(self.demanda_restante_filas[i] < 1 for i in range(fila, fila + largo)):
+                return True
+        return False
 
-tablero = [[0] * m for _ in range(n)]
-solucion = bt_batalla_naval(tablero, restricciones_filas, restricciones_columnas, barcos)
-for fila in solucion:
-    print(fila)
-print("Demanda incumplida:", calcular_demanda_incumplida(solucion, restricciones_filas, restricciones_columnas))
-"""
+    def contar_demanda_cumplida_de_barco(self, largo):
+        return largo*2
+
+    def tiene_adyacentes(self, fila, col, largo, orientacion):
+        if orientacion == 0:  # Horizontal
+            for j in range(col - 1, col + largo + 1):
+                if not (0 <= j < self.m):
+                    continue
+                for i in [fila - 1, fila, fila + 1]:
+                    if 0 <= i < self.n and self.tablero[i][j] != self.vacio:
+                        return True
+        else:  # Vertical
+            for i in range(fila - 1, fila + largo + 1):
+                if not (0 <= i < self.n):
+                    continue
+                for j in [col - 1, col, col + 1]:
+                    if 0 <= j < self.m and self.tablero[i][j] != self.vacio:
+                        return True
+        return False
+
+    def colocar_barco(self, fila, col, orientacion, largo, ship_indice):
+        if orientacion == 0:  # Horizontal
+            for j in range(col, col + largo):
+                self.tablero[fila][j] = ship_indice
+                self.demanda_restante_columnas[j] -= 1
+            self.demanda_restante_filas[fila] -= largo
+        else:  # Vertical
+            for i in range(fila, fila + largo):
+                self.tablero[i][col] = ship_indice
+                self.demanda_restante_filas[i] -= 1
+            self.demanda_restante_columnas[col] -= largo
+    
+
+    def quitar_barco(self, fila, col, largo, orientacion):
+        if orientacion == 0:  # Horizontal
+            for j in range(col, col + largo):
+                self.tablero[fila][j] = self.vacio
+                self.demanda_restante_columnas[j] += 1
+            self.demanda_restante_filas[fila] += largo
+        else:  # Vertical
+            for i in range(fila, fila + largo):
+                self.tablero[i][col] = self.vacio
+                self.demanda_restante_filas[i] += 1
+            self.demanda_restante_columnas[col] += largo
+
+    def get_bloques_disponibles(self):
+        bloques_vacios = []
+        for i in range(self.n):
+            for j in range(self.m):
+                if self.tablero[i][j] == self.vacio and not self.tiene_adyacentes(i, j, 1, 0): 
+                    bloques_vacios.append((i, j))
+        return bloques_vacios
+    
+    def print_solution(self):
+        restricciones_columnas = [" ", " "] + [str(c) + " " for c in self.restricciones_columnas]
+        print(''.join(restricciones_columnas))
+        for i in range(self.n):
+            fila_str = [str(self.restricciones_filas[i]) + " "] + [self.mejor_tablero[i][j] + " " for j in range(self.m)]
+            print(''.join(fila_str))
+        print()
+    
+
+    def get_best_grid(self):
+        return self.mejor_tablero
+
+    def get_optimal_demand(self):
+        return self.maxima_demanda_cumplida
+    
