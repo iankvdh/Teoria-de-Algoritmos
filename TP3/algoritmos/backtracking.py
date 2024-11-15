@@ -1,6 +1,6 @@
 import time
 
-class Batalla_Naval_2:
+class Batalla_Naval:
     tablero = None
     mejor_tablero = None
     vacio = "-"
