@@ -38,7 +38,7 @@ def validador(restricciones_filas, restricciones_columnas, posiciones_barcos):
     # restricciones adyacencias
     for i, set_barco in enumerate(posiciones_barcos):
         for (fila, col) in set_barco:
-            for dx, dy in [POSICIONES]:
+            for dx, dy in POSICIONES:
                 ni, nj = fila + dx, col + dy
                 if 0 <= ni < n and 0 <= nj < m:
                     if tablero_solucion[ni][nj] is not None and tablero_solucion[ni][nj] != i:
