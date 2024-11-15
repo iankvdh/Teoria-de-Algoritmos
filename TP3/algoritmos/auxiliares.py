@@ -1,4 +1,4 @@
-# Description: Funciones auxiliares para el TP3
+# Funciones auxiliares para el TP3
 
 # CONSTANTES
 HORIZONTAL = 0
@@ -14,6 +14,25 @@ IZQ = (0, -1)
 DER = (0, 1)
 IZQ_ABAJO = (1, -1)
 DER_ABAJO = (1, 1)
+POSICIONES = [IZQ_ARRIBA, DER_ARRIBA, ARRIBA, ABAJO, IZQ, DER, IZQ_ABAJO, DER_ABAJO]
+
+def es_contiguo(set_barco):
+    posiciones = list(set_barco)
+    visitados = set()
+    pila = [posiciones[0]]
+    
+    while pila:
+        (fila, col) = pila.pop()
+        if (fila, col) not in visitados:
+            visitados.add((fila, col))
+            
+            # Revisamos las posiciones adyacentes
+            for dx, dy in [ARRIBA, IZQ, DER, ABAJO]:
+                adyacente = (fila + dx, col + dy)
+                if adyacente in set_barco and adyacente not in visitados:
+                    pila.append(adyacente)
+    
+    return len(visitados) == len(set_barco)
 
 def calcular_demanda_incumplida(tablero, restricciones_filas, restricciones_columnas):
     """

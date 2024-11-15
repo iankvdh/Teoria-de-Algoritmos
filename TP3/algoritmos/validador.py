@@ -1,53 +1,47 @@
-HORIZONTAL = "horizontal"
-VERTICAL = "vertical"
-BARCO = 1
+from auxiliares import es_contiguo, POSICIONES
 
-def validador(n, m, restricciones_filas, restricciones_columnas, barcos):
-    tablero_solucion = [[0] * m for _ in range(n)] 
+def validador(restricciones_filas, restricciones_columnas, posiciones_barcos):
+    """
+    Dada una configuración de un tablero de batalla naval, verifica si cumple con las restricciones dadas.
+    restricciones_filas: lista de enteros, donde restricciones_filas[i] es la cantidad de barcos que hay en la fila i.
+    restricciones_columnas: lista de enteros, donde restricciones_columnas[j] es la cantidad de barcos que hay en la columna j.
+    posiciones_barcos: set de conjuntos de tuplas, donde posiciones_barcos[i] es el conjunto de posiciones que ocupa el barco i.
+    """
+    n = len(restricciones_filas)
+    m = len(restricciones_columnas)
+    tablero_solucion = [[None] * m for _ in range(n)] 
 
-    pos_barcos = []
-
-    for barco in barcos:
-        set_barco = set()
-        fila, columna, orientacion, longitud = barco
-
-        if orientacion == HORIZONTAL and columna + longitud <= m:
-            for i in range(longitud):
-                tablero_solucion[fila][columna + i] = BARCO
-                set_barco.add((fila, columna + i))
-        elif orientacion == VERTICAL and fila + longitud <= n:
-            for i in range(longitud):
-                tablero_solucion[fila + i][columna] = BARCO
-                set_barco.add((fila + i, columna))
-        else:
-            print(f"Error: el barco en posición ({fila}, {columna}) con orientación {orientacion} y longitud {longitud} se sale del tablero.")
-            continue
-
-        pos_barcos.append(set_barco)
+    # contigüidad de barcos
+    for set_barco in posiciones_barcos:
+        for set_barco in posiciones_barcos:
+            if len(set_barco) > 1:
+                if not es_contiguo(set_barco):
+                    return False
+    
+    for i, set_barco in enumerate(posiciones_barcos):
+        if set_barco is not None:
+            for (fila, col) in set_barco:
+                tablero_solucion[fila][col] = i
 
     # restricciones filas
     for i in range(n):
-        ocupados_en_fila = sum(tablero_solucion[i])
+        ocupados_en_fila = sum(1 for j in range(m) if tablero_solucion[i][j] is not None)
         if ocupados_en_fila != restricciones_filas[i]:
             return False
 
     # restricciones columnas
     for j in range(m):
-        ocupados_en_columna = 0
-        for i in range(n):
-            if tablero_solucion[i][j] == BARCO:
-                ocupados_en_columna += 1
-        if ocupados_en_columna != restricciones_columnas[j]:
+        ocupados_en_col = sum(1 for i in range(n) if tablero_solucion[i][j] is not None)
+        if ocupados_en_col != restricciones_columnas[j]:
             return False
 
     # restricciones adyacencias
-    for i, set_barco in enumerate(pos_barcos):
+    for i, set_barco in enumerate(posiciones_barcos):
         for (fila, col) in set_barco:
-            for dx, dy in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+            for dx, dy in [POSICIONES]:
                 ni, nj = fila + dx, col + dy
                 if 0 <= ni < n and 0 <= nj < m:
-                    for j, otro_barco in enumerate(pos_barcos):
-                        if j != i and (ni, nj) in otro_barco:
-                            return False
+                    if tablero_solucion[ni][nj] is not None and tablero_solucion[ni][nj] != i:
+                        return False
 
     return True
