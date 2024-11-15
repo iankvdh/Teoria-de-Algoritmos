@@ -30,7 +30,6 @@ def agregar_restricciones(problema, x, d, e, y, n, m, barco_largos, demanda_fila
                     problema += pulp.lpSum(x[i, j + l] for l in range(largo)) <= y[k]
 
 def imprimir_resultados(problema, x, d, e, n, m):
-    print("Estado de la solución: ", pulp.LpStatus[problema.status])
 
     for i in range(n):
         fila = ""
@@ -70,4 +69,8 @@ def main():
     demanda_filas = [3, 3, 2, 2, 1]
     demanda_columnas = [2, 3, 2, 2, 1]
     
-    resolver_batalla_naval(barco_largos, demanda_filas, demanda_columnas)
+    resolver_batalla_naval(barco_largos, demanda_filas, demanda_columnas) 
+    # DEBERIAMOS AGREGAR UNA RESTRICCION DE QUE CADA BARCO DEBE ESTAR EN UNA SOLA FILA O COLUMNA
+
+if __name__ == "__main__":
+    main()
