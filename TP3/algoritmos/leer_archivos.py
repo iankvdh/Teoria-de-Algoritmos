@@ -1,4 +1,4 @@
-from batalla_naval import Batalla_Naval
+from backtracking import Batalla_Naval
 import time
 import os
 
@@ -93,7 +93,7 @@ def main():
         batalla_naval.print_solution()
         print("-------------------------------------------------------------------")
 
-main()
+# main()
 
 
 

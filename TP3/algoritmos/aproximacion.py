@@ -17,13 +17,19 @@
 # a fin de corroborar empíricamente la cota calculada anteriormente.
 
 
-VACIO = " - "
+from leer_archivos import leer_inputs
+
+VACIO = "-"
 ES_FILA = 0
 ES_COLUMNA = 1
 
-n = len(restricciones_filas)
-m = len(restricciones_columnas)
+archivo = '10_10_10.txt'
+
+demandas_filas, demandas_columnas, barcos = leer_inputs('../data/' + archivo)
+n = len(demandas_filas)
+m = len(demandas_columnas)
 tablero = [[VACIO for _ in range(m)] for _ in range(n)]
+
 
 # recibe las restricciones de filas y columnas y las transforma en una lista de tuplas (idx, demanda, es_fila/es_columna)
 def transoformar_restricciones(restricciones_filas, restricciones_columnas):
@@ -40,7 +46,8 @@ def transoformar_restricciones(restricciones_filas, restricciones_columnas):
 def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
     
     restricciones = transoformar_restricciones(restricciones_filas, restricciones_columnas)
-
+    n = len(restricciones_filas)
+    m = len(restricciones_columnas)
     restricciones.sort(key=lambda x: x[1], reverse=True)
     barcos.sort(reverse=True)
 
@@ -54,6 +61,8 @@ def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
             for i in range(n):
                 # y ubicar el barco de mayor longitud en dicha fila/columna en algún lugar válido. 
                 # Si el barco de mayor longitud es más largo que dicha demanda, simplemente saltearlo y seguir con el siguiente. 
+                if idx == 6:
+                    print(i, idx)
                 if not es_posicion_valida(tablero, idx, i, demanda, largo_barco, es_fila):
                     continue
                 for j in range(demanda):
@@ -61,7 +70,7 @@ def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
                 break
         else:
             for j in range(m):
-                if not es_posicion_valida(tablero, idx, j, demanda, largo_barco, es_fila):
+                if not es_posicion_valida(tablero, j, idx, demanda, largo_barco, es_fila):
                     continue
                 for i in range(demanda):
                     tablero[i][j] = str(idx)
@@ -73,6 +82,9 @@ def es_posicion_valida(tablero, i, j, demanda, largo_barco, es_fila):
         if j + largo_barco > m:
             return False
         # si hay algo en el camino
+        if i == 6:
+            print(i, j)
+
         for k in range(j, j + largo_barco):
             if tablero[i][k] != VACIO:
                 return False
@@ -112,3 +124,18 @@ def es_posicion_valida(tablero, i, j, demanda, largo_barco, es_fila):
             return False
         
     return True
+
+aproximacion(tablero, demandas_filas, demandas_columnas, barcos)
+
+
+def print_solution(demandas_filas, demandas_columnas, mejor_tablero):
+    n = len(demandas_filas)
+    m = len(demandas_columnas)
+    restricciones_columnas = [" ", " "] + [str(c) + " " for c in demandas_columnas]
+    print(''.join(restricciones_columnas))
+    for i in range(n):
+        fila_str = [str(demandas_filas[i]) + " "] + [mejor_tablero[i][j] + " " for j in range(m)]
+        print(''.join(fila_str))
+    print()
+
+print_solution(demandas_filas, demandas_columnas, tablero)
