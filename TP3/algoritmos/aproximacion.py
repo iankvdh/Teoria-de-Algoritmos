@@ -20,10 +20,8 @@
 from leer_archivos import leer_inputs
 
 VACIO = "-"
-ES_FILA = 0
-ES_COLUMNA = 1
 
-archivo = '10_10_10.txt'
+archivo = '30_25_25.txt'
 
 demandas_filas, demandas_columnas, barcos = leer_inputs('../data/' + archivo)
 n = len(demandas_filas)
@@ -36,10 +34,10 @@ def transoformar_restricciones(restricciones_filas, restricciones_columnas):
     restricciones_filas_con_idx = []
     restricciones_columnas_con_idx = []
     for i, restriccion in enumerate(restricciones_filas):
-        tupla = i, restriccion, ES_FILA
+        tupla = i, restriccion, True
         restricciones_filas_con_idx.append(tupla)
     for j, restriccion in enumerate(restricciones_columnas):
-        tupla = j, restriccion, ES_COLUMNA
+        tupla = j, restriccion, False
         restricciones_columnas_con_idx.append(tupla)
     return restricciones_filas_con_idx + restricciones_columnas_con_idx
 
@@ -50,80 +48,95 @@ def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
     m = len(restricciones_columnas)
     restricciones.sort(key=lambda x: x[1], reverse=True)
     barcos.sort(reverse=True)
+    barco_actual = 0
+    demanda_restante_filas = restricciones_filas[:]
+    demanda_restante_columnas = restricciones_columnas[:]
 
     for restriccion in restricciones:
         idx, demanda, es_fila = restriccion
         largo_barco = barcos.pop(0)
+        
         if not barcos:
             break
         # Ir a fila/columna de mayor demanda, 
         if es_fila:
-            for i in range(n):
+            idx_fila = idx
+            for j in range(m):
                 # y ubicar el barco de mayor longitud en dicha fila/columna en algún lugar válido. 
                 # Si el barco de mayor longitud es más largo que dicha demanda, simplemente saltearlo y seguir con el siguiente. 
-                if idx == 6:
-                    print(i, idx)
-                if not es_posicion_valida(tablero, idx, i, demanda, largo_barco, es_fila):
-                    continue
-                for j in range(demanda):
-                    tablero[i][j] = str(idx)                
-                break
+       
+
+                if entra_en_el_tablero(tablero, idx_fila, j, largo_barco, 0) \
+                    and not exede_demanda(idx_fila, j, largo_barco, 0, demanda_restante_filas, demanda_restante_columnas) \
+                    and not tiene_adyacentes(tablero, idx_fila, j, largo_barco, 0, n, m):
+                    tablero, demanda_restante_filas, demanda_restante_columnas = colocar_barco(tablero, idx_fila, j, 0, largo_barco, barco_actual, demanda_restante_filas, demanda_restante_columnas)
+                    barco_actual += 1         
+                    break
         else:
-            for j in range(m):
-                if not es_posicion_valida(tablero, j, idx, demanda, largo_barco, es_fila):
-                    continue
-                for i in range(demanda):
-                    tablero[i][j] = str(idx)
-                break
+            idx_col = idx
+            for i in range(n):
 
-def es_posicion_valida(tablero, i, j, demanda, largo_barco, es_fila):
-    if es_fila:
-        # el barco ya no entra
-        if j + largo_barco > m:
-            return False
-        # si hay algo en el camino
-        if i == 6:
-            print(i, j)
+                if entra_en_el_tablero(tablero, i, idx_col, largo_barco, 1) \
+                    and not exede_demanda(i, idx_col, largo_barco, 1, demanda_restante_filas, demanda_restante_columnas) \
+                    and not tiene_adyacentes(tablero, i, idx_col, largo_barco, 1, n, m):
+                    tablero, demanda_restante_filas, demanda_restante_columnas = colocar_barco(tablero, i, idx_col, 1, largo_barco, barco_actual, demanda_restante_filas, demanda_restante_columnas)
+                    barco_actual += 1
+                    break
 
-        for k in range(j, j + largo_barco):
-            if tablero[i][k] != VACIO:
-                return False
-        # adyacencias
-        if j > 0 and tablero[i][j - 1] != VACIO:
+
+def entra_en_el_tablero(tablero, fila, col, largo, orientacion):
+        try:
+            if orientacion == 0:  # Horizontal
+                return all(tablero[fila][j] == VACIO for j in range(col, col + largo))
+            else:  # Vertical
+                return all(tablero[i][col] == VACIO for i in range(fila, fila + largo))
+        except IndexError:
             return False
-        if j + largo_barco < m and tablero[i][j + largo_barco] != VACIO:
-            return False
-        
-        # sumar la demanda que ya hay cumplida en esa fila
-        demanda_actual = 0
-        for k in range(m):
-            if tablero[i][k] != VACIO:
-                demanda_actual += 1
-        if demanda_actual + largo_barco > demanda:
-            return False
-    else:
-        # el barco ya no entra
-        if i + largo_barco > n:
-            return False
-        # si hay algo en el camino
-        for k in range(i, i + largo_barco):
-            if tablero[k][j] != VACIO:
-                return False
-        # adyacencias
-        if i > 0 and tablero[i - 1][j] != VACIO:
-            return False
-        if i + largo_barco < n and tablero[i + largo_barco][j] != VACIO:
-            return False
-        
-        # sumar la demanda que ya hay cumplida en esa columna
-        demanda_actual = 0
-        for k in range(n):
-            if tablero[k][j] != VACIO:
-                demanda_actual += 1
-        if demanda_actual + largo_barco > demanda:
-            return False
-        
-    return True
+
+def exede_demanda(fila, col, largo, orientacion, demanda_restante_filas, demanda_restante_columnas):
+    if orientacion == 0:  # Horizontal
+        if demanda_restante_filas[fila] < largo:
+            return True
+        if any(demanda_restante_columnas[j] < 1 for j in range(col, col + largo)):
+            return True
+    else:  # Vertical
+        if demanda_restante_columnas[col] < largo:
+            return True
+        if any(demanda_restante_filas[i] < 1 for i in range(fila, fila + largo)):
+            return True
+    return False
+
+def tiene_adyacentes(tablero, fila, col, largo, orientacion, n, m):
+    if orientacion == 0:  # Horizontal
+        for j in range(col - 1, col + largo + 1):
+            if not (0 <= j < m):
+                continue
+            for i in [fila - 1, fila, fila + 1]:
+                if 0 <= i < n and tablero[i][j] != VACIO:
+                    return True
+    else:  # Vertical
+        for i in range(fila - 1, fila + largo + 1):
+            if not (0 <= i < n):
+                continue
+            for j in [col - 1, col, col + 1]:
+                if 0 <= j < m and tablero[i][j] != VACIO:
+                    return True
+    return False
+
+
+def colocar_barco(tablero, fila, col, orientacion, largo, ship_indice, demanda_restante_filas, demanda_restante_columnas):
+    if orientacion == 0:  # Horizontal
+        for j in range(col, col + largo):
+            tablero[fila][j] = str(ship_indice)
+            demanda_restante_columnas[j] -= 1
+        demanda_restante_filas[fila] -= largo
+    else:  # Vertical
+        for i in range(fila, fila + largo):
+            tablero[i][col] = str(ship_indice)
+            demanda_restante_filas[i] -= 1
+        demanda_restante_columnas[col] -= largo
+    return tablero, demanda_restante_filas, demanda_restante_columnas
+
 
 aproximacion(tablero, demandas_filas, demandas_columnas, barcos)
 
@@ -138,4 +151,17 @@ def print_solution(demandas_filas, demandas_columnas, mejor_tablero):
         print(''.join(fila_str))
     print()
 
+def print_demanda_cumplida(tablero):
+    n = len(tablero)
+    m = len(tablero[0])
+    cant = 0
+    for i in range(n):
+        for j in range(m):
+            if tablero[i][j] != VACIO:
+                cant+=1
+    print("Demanda total cumplida: ", cant*2)
+    
+
+
 print_solution(demandas_filas, demandas_columnas, tablero)
+print_demanda_cumplida(tablero)
