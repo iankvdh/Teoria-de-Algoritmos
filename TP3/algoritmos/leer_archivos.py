@@ -1,6 +1,6 @@
-from backtracking import Batalla_Naval
-import time
 import os
+
+CARPETA = 'data'
 
 def leer_inputs(nombre_archivo):
     with open(nombre_archivo, 'r') as file:
@@ -39,61 +39,54 @@ def leer_resultados_esperados(nombre_archivo, inputs):
     for i, linea in enumerate(lineas):
         if inputs in linea:
             posiciones = []
-            i += 1  # Mover a la siguiente línea para empezar a procesar
+            i += 1
             while 'Demanda cumplida' not in lineas[i]:
+                if "None" in lineas[i]:
+                    posiciones.append(None)
+                elif ":" in lineas[i]:
+                    pos = lineas[i].strip().split(":")[1].strip()
+                    if pos:
+                        if "-" in pos:
+                            inicio, fin = pos.split(" - ")
+                            inicio = tuple(map(int, inicio.strip("()").split(", ")))
+                            fin = tuple(map(int, fin.strip("()").split(", ")))
+                            posiciones.append((inicio, fin))
+                        else:
+                            coord = tuple(map(int, pos.strip("()").split(", ")))
+                            posiciones.append(coord)
                 i += 1
+
 
             demanda_cumplida = int(lineas[i].split(":")[1].strip())
             demanda_total = int(lineas[i + 1].split(":")[1].strip())
-
+            
+            resultados_esperados['posiciones'] = posiciones
             resultados_esperados['demanda_cumplida'] = demanda_cumplida
             resultados_esperados['demanda_total'] = demanda_total
             break
 
-    return resultados_esperados['demanda_cumplida'], resultados_esperados['demanda_total']
+    return resultados_esperados['posiciones'], resultados_esperados['demanda_cumplida'], resultados_esperados['demanda_total']
 
+def leer_archivos(carpeta):
+    archivos = os.listdir(carpeta)
+    archivos_validos = [
+        archivo for archivo in archivos
+        if ":Zone.Identifier" not in archivo
+            and 'Resultados Esperados.txt' not in archivo
+            and 'Resultados Esperados Tablero.txt' not in archivo
+            and '30_25_25.txt' not in archivo # se evita este archivo
+            and archivo.endswith('.txt')
+    ]
+    return archivos_validos
 
-
-
-def main():
-    def leer_archivos(carpeta):
-        archivos = os.listdir(carpeta)
-        archivos_validos = [
-            archivo for archivo in archivos
-            if ":Zone.Identifier" not in archivo
-                and 'Resultados Esperados.txt' not in archivo
-                and 'Resultados Esperados Tablero.txt' not in archivo
-                and '30_25_25.txt' not in archivo ################################################################################################
-                and archivo.endswith('.txt')
-        ]
-        return archivos_validos
-
-
-    # Ejemplo de uso
-    carpeta = 'data'
-    archivos = leer_archivos(carpeta)
-
-
-
-    for archivo in archivos:
-        demandas_filas, demandas_columnas, barcos = leer_inputs('data/' + archivo)
-        demanda_cumplida_esperada, demanda_total = leer_resultados_esperados('data/' + 'Resultados Esperados.txt', archivo)
-
-
-        print("----------------------------", archivo ,"----------------------------")
-        print("demanda_cumplida_esperada:", demanda_cumplida_esperada)
-        print("demanda_total:", demanda_total)
-        start_time = time.time()
-        batalla_naval = Batalla_Naval(demandas_filas, demandas_columnas, barcos)
-        end_time = time.time()  
-
-        print("Demanda cumplida: ", batalla_naval.get_optimal_demand())
-        print(f"tiempo de ejecucion:, {end_time - start_time} segundos")
-        print()
-        batalla_naval.print_solution()
-        print("-------------------------------------------------------------------")
-
-# main()
-
-
-
+def leer_resultados_validador():
+    carpeta = 'data_validador'
+    archivos = os.listdir(carpeta)
+    archivos_validos = [
+        archivo for archivo in archivos
+        if ":Zone.Identifier" not in archivo
+            and 'Resultados Validador.txt' not in archivo
+            and archivo.endswith('.txt')
+    ]
+    return archivos_validos     
+    

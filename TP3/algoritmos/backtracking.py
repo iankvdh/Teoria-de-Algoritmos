@@ -1,4 +1,5 @@
 import time
+from leer_archivos import leer_inputs, leer_resultados_esperados, leer_archivos, CARPETA
 
 class Batalla_Naval:
     tablero = None
@@ -131,6 +132,19 @@ class Batalla_Naval:
             print(''.join(fila_str))
         print()
     
+    def print_posiciones_barcos(self):
+        # a partir del mejor_tablero, obtener las posiciones de los barcos, cada numero corresponde al barco en la posicion i
+        posiciones_barcos = [[] for _ in range(len(self.barcos))]
+        for i in range(self.n):
+            for j in range(self.m):
+                if self.mejor_tablero[i][j] != self.vacio:
+                    posiciones_barcos[int(self.mejor_tablero[i][j])].append((i, j))
+        for i in range(len(posiciones_barcos)):
+            if len(posiciones_barcos[i]) <= 0:
+                posiciones_barcos[i] = None
+        
+        return posiciones_barcos
+    
 
     def get_best_grid(self):
         return self.mejor_tablero
@@ -138,3 +152,31 @@ class Batalla_Naval:
     def get_optimal_demand(self):
         return self.maxima_demanda_cumplida
     
+def main():
+    archivos = leer_archivos(CARPETA)
+    for archivo in archivos:
+        demandas_filas, demandas_columnas, barcos = leer_inputs('data/' + archivo)
+        _, demanda_cumplida_esperada, demanda_total = leer_resultados_esperados('data/' + 'Resultados Esperados.txt', archivo)
+
+        print("----------------------------", archivo ,"----------------------------")
+        print("Demanda cumplida esperada:", demanda_cumplida_esperada)
+        print("Demanda total:", demanda_total)
+        start_time = time.time()
+        batalla_naval = Batalla_Naval(demandas_filas, demandas_columnas, barcos)
+        end_time = time.time()  
+        print("Demanda obtenida: ", batalla_naval.get_optimal_demand())
+        print(f"Tiempo de ejecucion: {end_time - start_time} segundos")
+        #batalla_naval.print_solution()
+        pos_barcos = batalla_naval.print_posiciones_barcos()
+        print("Posiciones:")
+        for i in range(len(pos_barcos)):
+            if pos_barcos[i] is None:
+                print(f"{i}: None")
+            else:
+                if len(pos_barcos[i]) == 1:
+                    print(f"{i}: {pos_barcos[i][0]}")
+                else:
+                    print(f"{i}: {pos_barcos[i][0]} - {pos_barcos[i][-1]}")
+        print("-------------------------------------------------------------------")
+
+main()
