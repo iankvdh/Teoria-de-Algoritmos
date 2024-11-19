@@ -46,7 +46,7 @@ Este proyecto permite procesar y validar archivos de datos para resolver problem
 #### **3. Ejecutar desde la terminal**
 Abra una terminal y ejecute el programa usando el comando adecuado, por ejemplo:
 ```bash
-python backtracking.py
+python .\algoritmos\backtracking.py
 ```
 
 ---
@@ -64,7 +64,7 @@ python backtracking.py
 #### **3. Ejecutar desde la terminal**
 Ejecute el programa usando el siguiente comando en la terminal:
 ```bash
-python validador.py 
+python .\algoritmos\validador.py 
 ```
 
 ---
