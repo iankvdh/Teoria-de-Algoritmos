@@ -1,33 +1,6 @@
-# algoritmo de aproximación: 
-# Ir a fila/columna de mayor demanda, y ubicar el barco de mayor longitud en dicha fila/columna en algún lugar válido. 
-# Si el barco de mayor longitud es más largo que dicha demanda, simplemente saltearlo y seguir con el siguiente. 
-# Volver a aplicar hasta que no queden más barcos o no haya más demandas a cumplir. 
-# 
-# Este algoritmo sirve como una aproximación para resolver el problema de La Batalla Naval. 
-# Implementar dicho algoritmo, analizar su complejidad y analizar cuán buena aproximación es. 
-# Para esto, considerar lo siguiente: 
-# Sea I una instancia cualquiera del problema de La Batalla Naval, 
-# y z(I) una solución óptima para dicha instancia, 
-# y sea A(I) la solución aproximada, 
-# se define  A(I)/z(I)≤r(A) para todas las instancias posibles. 
-# Calcular  r(A) para el algoritmo dado, demostrando que la cota está bien calculada. 
-# 
-# Realizar mediciones utilizando el algoritmo exacto y la aproximación, con el objetivo de verificar dicha relación. 
-# Realizar también mediciones que contemplen volúmenes de datos ya inmanejables para el algoritmo exacto, 
-# a fin de corroborar empíricamente la cota calculada anteriormente.
-
-
-from leer_archivos import leer_inputs
+from algoritmos.leer_archivos import leer_inputs
 
 VACIO = "-"
-
-archivo = '30_25_25.txt'
-
-demandas_filas, demandas_columnas, barcos = leer_inputs('../data/' + archivo)
-n = len(demandas_filas)
-m = len(demandas_columnas)
-tablero = [[VACIO for _ in range(m)] for _ in range(n)]
-
 
 # recibe las restricciones de filas y columnas y las transforma en una lista de tuplas (idx, demanda, es_fila/es_columna)
 def transoformar_restricciones(restricciones_filas, restricciones_columnas):
@@ -54,7 +27,6 @@ def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
     pude_poner = False
     for restriccion in restricciones:
         idx, demanda, es_fila = restriccion
-        print(demanda, barco_actual, es_fila)
         pude_poner = False
         if not barcos:
             break
@@ -66,8 +38,7 @@ def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
                 for j in range(m):
                     # y ubicar el barco de mayor longitud en dicha fila/columna en algún lugar válido. 
                     # Si el barco de mayor longitud es más largo que dicha demanda, simplemente saltearlo y seguir con el siguiente. 
-        
-
+                    
                     if entra_en_el_tablero(tablero, idx_fila, j, largo_barco, 0) \
                         and not exede_demanda(idx_fila, j, largo_barco, 0, demanda_restante_filas, demanda_restante_columnas) \
                         and not tiene_adyacentes(tablero, idx_fila, j, largo_barco, 0, n, m):
@@ -145,10 +116,6 @@ def colocar_barco(tablero, fila, col, orientacion, largo, ship_indice, demanda_r
         demanda_restante_columnas[col] -= largo
     return tablero, demanda_restante_filas, demanda_restante_columnas
 
-
-aproximacion(tablero, demandas_filas, demandas_columnas, barcos)
-
-
 def print_solution(demandas_filas, demandas_columnas, mejor_tablero):
     n = len(demandas_filas)
     m = len(demandas_columnas)
@@ -169,7 +136,12 @@ def print_demanda_cumplida(tablero):
                 cant+=1
     print("Demanda total cumplida: ", cant*2)
     
-
-
-print_solution(demandas_filas, demandas_columnas, tablero)
-print_demanda_cumplida(tablero)
+def mostrar_resultados_ruta_abs_aprox(ruta_abs):
+    demandas_filas, demandas_columnas, barcos = leer_inputs(ruta_abs)
+    n = len(demandas_filas)
+    m = len(demandas_columnas)
+    tablero = [[VACIO for _ in range(m)] for _ in range(n)]
+    aproximacion(tablero, demandas_filas, demandas_columnas, barcos)
+    print_solution(demandas_filas, demandas_columnas, tablero)
+    print_demanda_cumplida(tablero)
+    

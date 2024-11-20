@@ -182,6 +182,28 @@ Ingrese la ruta absoluta del archivo de Resultados Validador: /ruta/a/resultados
 
 ---
 
+### 4. **Aproximación**
+1. Seleccione la opción `4` en el menú.
+2. Ingrese la **ruta absoluta** del archivo de entrada para la aproximación.
+   - El archivo debe estar en formato `.txt`.
+3. El programa procesará el archivo y mostrará los resultados en la consola.
+
+**Ejemplo de ejecución:**
+```bash
+$ python main.py
+----- TP3 - TDA - 2C 2024 -----
+Indique qué desea ejecutar:
+1) Backtracking
+2) Programación Lineal
+3) Validador
+4) Aproximación
+Ingrese una opción (1-4): 4
+Ingrese la ruta absoluta del archivo de Aproximación: /ruta/a/archivo_aprox.txt
+# Resultados procesados mostrados en la consola.
+```
+
+--- 
+
 ## **Notas**
 - **Errores comunes:**
   - Ingresar rutas incorrectas o archivos que no terminan en `.txt`.

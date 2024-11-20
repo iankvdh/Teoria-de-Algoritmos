@@ -1,5 +1,6 @@
 from algoritmos.backtracking import mostrar_resultados_ruta_abs_bt
 from algoritmos.validador import mostrar_resultados_ruta_abs_validador
+from algoritmos.aproximacion import mostrar_resultados_ruta_abs_aprox
 
 if __name__ == "__main__":
     print("----- TP3 - TDA - 2C 2024 -----")
@@ -7,9 +8,10 @@ if __name__ == "__main__":
     print("1) Backtracking")
     print("2) Programación Lineal")
     print("3) Validador")
+    print("4) Aproximación")
     while True:
-        opcion = int(input("Ingrese una opción (1-3): "))
-        if opcion in [1, 2, 3]:
+        opcion = int(input("Ingrese una opción (1-4): "))
+        if opcion in [1, 2, 3, 4]:
             break
         else:
             print("Opción no válida.")
@@ -39,6 +41,14 @@ if __name__ == "__main__":
             else:
                 print("Opción no válida.")
         mostrar_resultados_ruta_abs_validador(ruta_abs_validador, ruta_abs_validador_resultados)
+    elif opcion == 4:
+        while True:
+            ruta_abs_aprox = input("Ingrese la ruta absoluta del archivo de Aproximación: ")
+            if ruta_abs_aprox.endswith(".txt"):
+                break
+            else:
+                print("Opción no válida.")
+        mostrar_resultados_ruta_abs_aprox(ruta_abs_aprox)
     else:
-        print("Vuelve a ejecutar el programa.")
+        print("Vuelva a ejecutar el programa.")
 
