@@ -2,13 +2,13 @@ from pulp import LpMaximize, LpProblem, LpVariable, lpSum
 
 
 # Parámetros
-demandas_filas = [0, 3, 4, 1, 1, 4, 5, 0, 4, 5, 4, 2, 4, 3, 2]
-demandas_columnas = [0, 0, 3, 4, 1, 4, 6, 5, 2, 0]
-barcos = [6, 2, 1, 8, 7, 2, 7, 2, 5, 8, 1, 8, 8, 1, 6]
+#demandas_filas = [0, 3, 4, 1, 1, 4, 5, 0, 4, 5, 4, 2, 4, 3, 2]
+#demandas_columnas = [0, 0, 3, 4, 1, 4, 6, 5, 2, 0]
+#barcos = [6, 2, 1, 8, 7, 2, 7, 2, 5, 8, 1, 8, 8, 1, 6]
 
-#demandas_filas  = [3,3,0,1,1]  # Demandas de filas
-#demandas_columnas  = [3,1,0,3,3]  # Demandas de columnas
-#barcos = [1,2,2,2,2,1]  # Lista de barcos por tamaño
+demandas_filas  = [3,3,0,1,1]  # Demandas de filas
+demandas_columnas  = [3,1,0,3,3]  # Demandas de columnas
+barcos = [1,2,2,2,2,1]  # Lista de barcos por tamaño
 
 
 def batalla_naval(demandas_filas, demandas_columnas, barcos):
@@ -16,9 +16,12 @@ def batalla_naval(demandas_filas, demandas_columnas, barcos):
     m = len(demandas_columnas)  
     k = len(barcos)  
 
-    model = LpProblem("Maximizar_demanda_cumplida", LpMaximize)
-
-    # Variables
+    """
+    Variables de decisión:
+    - barco_usado_i: 1 si el barco i es usado, 0 en caso contrario
+    - inicio_hor_i_x_y: 1 si el barco i comienza en la posición (x, y) de forma horizontal, 0 en caso contrario
+    - inicio_ver_i_x_y: 1 si el barco i comienza en la posición (x, y) de forma vertical, 0 en caso contrario
+    """
     barco_usado = [LpVariable(f"barco_usado_{i}", cat="Binary") for i in range(k)]
     
     inicio_horizontal = [
@@ -30,6 +33,40 @@ def batalla_naval(demandas_filas, demandas_columnas, barcos):
         [[LpVariable(f"inicio_ver_{i}_{x}_{y}", cat="Binary") for y in range(m)] for x in range(n)]
         for i in range(k)
     ]
+    
+    # En si, queremos maximizar la cantidad de demanda cumplida
+    model = LpProblem("Maximizar_demanda_cumplida", LpMaximize)
+
+    """
+    Restricciones:
+    
+    - Cada barco puede estar horizontal o vertical, pero no ambas
+    para cada barco i: 
+        inicio_horizontal[i][x][y] + inicio_vertical[i][x][y] <= barco_usado[i]
+        para todo x, y
+    
+    - No puede haber barcos adyacentes
+    para cada barco i y cada posición (x, y):
+        inicio_horizontal[i][x][y] + inicio_vertical[i][x][y] + inicio_horizontal[j][nx][ny] + inicio_vertical[j][nx][ny] <= 1
+        para todo j distinto de i y para todo (nx, ny) adyacente a (x, y)
+
+    - No superar demandas de filas
+    para cada fila x:
+        Suma de barcos[i] * inicio_horizontal[i][x][y] para todo i, y <= demandas_filas[x]
+        Suma de barcos[i] * inicio_vertical[i][x1][y] para todo i, y, x1 <= demandas_filas[x]
+        para todo x y
+
+    - No superar demandas de columnas
+    para cada columna y:
+        Suma de barcos[i] * inicio_horizontal[i][x][y] para todo i, x <= demandas_columnas[y]
+        Suma de barcos[i] * inicio_vertical[i][x][y] para todo i, x, y <= demandas_columnas[y]
+
+
+    - Un barco por casillero
+    para cada posición (x, y):
+        Suma de inicio_horizontal[i][x][y] + inicio_vertical[i][x][y] para todo i <= 1
+        para todo x y
+    """
 
     # Restricción: Cada barco puede estar horizontal o vertical, pero no ambas
     for i in range(k):
@@ -123,15 +160,12 @@ def batalla_naval(demandas_filas, demandas_columnas, barcos):
             # Restricción de unicidad por casillero
             model += contrib_horizontal + contrib_vertical <= 1
 
-
     # Función objetivo: Maximizar la demanda cumplida
     model += lpSum(barcos[i] * (lpSum(inicio_horizontal[i][x][y] + inicio_vertical[i][x][y]
                                       for x in range(n) for y in range(m))) for i in range(k))
 
-
     model.solve()
 
-    # Extraer solución
     posiciones = []
     for i in range(k):
         colocado = False
@@ -150,36 +184,41 @@ def batalla_naval(demandas_filas, demandas_columnas, barcos):
         if not colocado:
             posiciones.append(None)
 
-    demanda_cumplida = sum(demandas_filas) + sum(demandas_columnas)
-    demanda_total = 2 * sum(barcos)
+    return posiciones
 
-    return posiciones, demanda_cumplida, demanda_total
-
-
-
-posiciones, demanda_cumplida, demanda_total = batalla_naval(demandas_filas, demandas_columnas, barcos)
-print("Posiciones seleccionadas para los barcos:", posiciones)
-print("Demanda cumplida esperada:", demanda_cumplida)
-print("Demanda total:", demanda_total)
-
-
-
-# Función para imprimir el tablero con los barcos colocados
-def print_barcos(barcos, lista_pos, demandas_filas, demandas_columnas):
-
-    n = len(demandas_filas)  # Número de filas
-    m = len(demandas_columnas)  # Número de columnas
+def generar_matriz_obtenida(lista_pos, demandas_filas, demandas_columnas):
+    n = len(demandas_filas)
+    m = len(demandas_columnas)
     matriz = [[None for _ in range(m)] for _ in range(n)]
+
     for i, pos in enumerate(lista_pos):
         if pos:
             (x1, y1), (x2, y2) = pos
-            if x1 == x2:  # Horizontal
+            if x1 == x2:
                 for y in range(y1, y2 + 1):
                     matriz[x1][y] = str(i)
-            else:  # Vertical
+            else:
                 for x in range(x1, x2 + 1):
                     matriz[x][y1] = str(i)
-    for fila in matriz:
-        print(fila)
+    return matriz
 
-print_barcos(barcos, posiciones, demandas_filas, demandas_columnas)
+def obtener_demanda_cumplida(matriz):
+    n = len(matriz)
+    m = len(matriz[0])
+    demanda_cumplida = 0
+    for i in range(n):
+        for j in range(m):
+            if matriz[i][j] != None:
+                demanda_cumplida += 1
+    return demanda_cumplida * 2
+
+posiciones = batalla_naval(demandas_filas, demandas_columnas, barcos)
+matriz = generar_matriz_obtenida(posiciones, demandas_filas, demandas_columnas)
+demandas_cumplidas = obtener_demanda_cumplida(matriz)
+print("Posiciones obtenidas: ", posiciones)
+print("Demanda cumplida: ", demandas_cumplidas)
+print("Matriz obtenida: ")
+for fila in matriz:
+    print(fila)
+
+
