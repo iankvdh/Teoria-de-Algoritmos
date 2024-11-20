@@ -1,10 +1,10 @@
 echo "Seleccione qué gráfico desea ejecutar:"
 echo "1) BACKTRACKING: Tiempo de ejecución vs Proporcion de datos de entrada (n x m)^k"
 # echo "2) PROGRAMACION LINEAL: Tiempo de ejecución vs Proporcion de datos de entrada (n x m)^k"
-# echo "3) APROXIMACIÓN: Tiempo de ejecución vs Proporcion de datos de entrada (n x m)^k"
-# echo "4) APROX: Tiempo de ejecución vs Volumenes de datos de entrada gigantescos"
+echo "3) APROXIMACIÓN: Tiempo de ejecución vs Proporcion de datos de entrada (n x m)^k"
+echo "4) APROXIMACIÓN:  r'(A) vs Proporcion de datos de entrada (n*m)^k"
 
-read -p "Ingrese una opción (1-5): " opcion
+read -p "Ingrese una opción (1-4): " opcion
 
 case $opcion in
     1)
@@ -15,6 +15,9 @@ case $opcion in
         ;;
     3)
         py grafico.py --grafico APROX_tiempo_vs_matriz
+        ;;
+    4)
+        py grafico.py --grafico APROX_cota
         ;;
     *)
         echo "Opción no válida"

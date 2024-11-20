@@ -1,33 +1,10 @@
 import sys
 from algoritmos.bt_tiempo_vs_matriz import bt_mostrar_tiempo_vs_matriz
+from algoritmos.aprox_tiempo_vs_matriz import aprox_tiempo_vs_matriz
+from algoritmos.aprox_cota import aprox_cota
 
 """
-echo "Seleccione qué gráfico desea ejecutar:"
-echo "1) BACKTRACKING: Tiempo de ejecución vs Tamaño de Matriz"
-echo "2) BACKTRACKING: Tiempo de ejecución vs Tamaño de Barcos"
-echo "3) BACKTRACKING: Tiempo de ejecución vs Cantidad de Barcos"
-echo "4) BACKTRACKING vs. PROGRAMACIÓN LINEAL"
-
-read -p "Ingrese una opción (1-5): " opcion
-
-case $opcion in
-    1)
-        py grafico.py --grafico BT_tiempo_vs_matriz
-        ;;
-    2)
-        py grafico.py --grafico BT_tiempo_vs_barcos
-        ;;
-    3)
-        py grafico.py --grafico BT_tiempo_vs_cant_barcos
-        ;;
-    4)
-        py grafico.py --grafico BT_vs_PL
-        ;;
-    *)
-        echo "Opción no válida"
-        ;;
-esac
-
+Ejecuta los gráficos correspondientes según la opción seleccionada.
 """
 def ejecutar_graficos():
     if len(sys.argv) > 1:
@@ -36,10 +13,10 @@ def ejecutar_graficos():
             bt_mostrar_tiempo_vs_matriz()
         elif grafico == "BT_tiempo_vs_barcos":
             pass
-        elif grafico == "BT_tiempo_vs_cant_barcos":
-            pass
-        elif grafico == "BT_vs_PL":
-            pass
+        elif grafico == "APROX_tiempo_vs_matriz":
+            aprox_tiempo_vs_matriz()
+        elif grafico == "APROX_cota":
+            aprox_cota()
         else:
             print("Opción no válida.")
     else:
