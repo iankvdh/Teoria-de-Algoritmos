@@ -79,6 +79,18 @@ def leer_archivos(carpeta):
     ]
     return archivos_validos
 
+
+def leer_todos_archivos(carpeta):
+    archivos = os.listdir(carpeta)
+    archivos_validos = [
+        archivo for archivo in archivos
+        if ":Zone.Identifier" not in archivo
+            and 'Resultados Esperados.txt' not in archivo
+            and 'Resultados Esperados Tablero.txt' not in archivo
+            and archivo.endswith('.txt')
+    ]
+    return archivos_validos
+
 def leer_resultados_validador():
     carpeta = 'data_validador'
     archivos = os.listdir(carpeta)

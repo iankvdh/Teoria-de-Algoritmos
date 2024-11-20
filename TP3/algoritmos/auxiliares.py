@@ -57,3 +57,5 @@ def configurar_posiciones_barcos(posiciones):
         elif isinstance(pos, tuple):  # Posición única
             posiciones_resultantes.append([pos])
     return posiciones_resultantes
+
+

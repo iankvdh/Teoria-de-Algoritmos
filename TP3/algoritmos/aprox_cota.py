@@ -1,21 +1,9 @@
-
-"""
-- correrlo con los ejemplos y guardarse los res de cada uno en un arreglo
-- armar otro arreglo con los resultados optimos
-- graficar resultado // optimo
-- eje x: ejemplo
-- eje y: resultado sobre optimo A(I) / z(I)
-"""
-
 import matplotlib.pyplot as plt
 from algoritmos.leer_archivos import *
 from algoritmos.aproximacion import *
 
-def modelo_cota(x, y):
-    return x/y
-
 def aprox_cota():
-    archivos = leer_archivos(CARPETA)
+    archivos = leer_todos_archivos(CARPETA)
     resultados = []
     for archivo in archivos:
         demandas_filas, demandas_columnas, barcos = leer_inputs('data/' + archivo)
@@ -35,7 +23,7 @@ def aprox_cota():
         for i in range(n):
             for j in range(m):
                 if tablero[i][j] != VACIO:
-                    cant+=1
+                    cant += 1
         demanda_subopt = cant*2 # Resultado suboptimo
         demanda_opt = demanda_cumplida_esperada # Resultado optimo
 
