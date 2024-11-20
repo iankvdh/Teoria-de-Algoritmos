@@ -25,6 +25,8 @@ El presente trabajo busca evaluar el desarrollo y análisis de un algoritmo de  
 │
 ├── 📂 algoritmos/                # Contiene las implementaciones de los algortimos pepidos en el enunciado
 ├── 🖼️ img/                       # Carpeta para almacenar las imágenes generadas
+├── 📂 data/                      # Contiene archivos de texto con los datos de entrada y resultados esperados
+├── 📂 data_validador/            # Contiene archivos de texto con los datos de entrada y resultados esperados particulares del validador
 ├── 📄 Informe_TP3.pdf            # Informe detallado del proyecto
 ├── 📑 README.md                  # Documentación del proyecto
 ```
