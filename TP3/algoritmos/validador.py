@@ -1,5 +1,5 @@
-from auxiliares import es_contiguo, configurar_posiciones_barcos, POSICIONES
-from leer_archivos import leer_inputs, leer_resultados_esperados, leer_resultados_validador
+from algoritmos.auxiliares import es_contiguo, configurar_posiciones_barcos, POSICIONES
+from algoritmos.leer_archivos import leer_inputs, leer_resultados_esperados, leer_resultados_validador
 
 def validador(restricciones_filas, restricciones_columnas, posiciones_barcos, barcos, demanda_cumplida, demanda_total):
     """
@@ -66,15 +66,11 @@ def validador(restricciones_filas, restricciones_columnas, posiciones_barcos, ba
 
     return True
 
-def main():
-    archivos_validos = leer_resultados_validador()
-    for archivo in archivos_validos:
-        demandas_filas, demandas_columnas, barcos = leer_inputs('data/' + archivo)
-        posiciones_barcos, demanda_cumplida, demanda_total = leer_resultados_esperados('data/' + 'Resultados Esperados.txt', archivo)
-        pos_barcos = configurar_posiciones_barcos(posiciones_barcos)
-        if validador(demandas_filas, demandas_columnas, pos_barcos, barcos, demanda_cumplida, demanda_total):
-            print(f"El archivo {archivo} es válido.")
-        else:
-            print(f"El archivo {archivo} es inválido.")
-
-main()
+def mostrar_resultados_ruta_abs_validador(ruta_absoluta_archivo, ruta_absoluta_resultados):
+    demandas_filas, demandas_columnas, barcos = leer_inputs(ruta_absoluta_archivo)
+    posiciones_barcos, demanda_cumplida, demanda_total = leer_resultados_esperados(ruta_absoluta_resultados)
+    pos_barcos = configurar_posiciones_barcos(posiciones_barcos)
+    if validador(demandas_filas, demandas_columnas, pos_barcos, barcos, demanda_cumplida, demanda_total):
+        print(f"El archivo {ruta_absoluta_archivo} es válido.")
+    else:
+        print(f"El archivo {ruta_absoluta_archivo} es inválido.")

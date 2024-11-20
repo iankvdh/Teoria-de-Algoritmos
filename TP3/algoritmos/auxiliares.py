@@ -16,6 +16,14 @@ IZQ_ABAJO = (1, -1)
 DER_ABAJO = (1, 1)
 POSICIONES = [IZQ_ARRIBA, DER_ARRIBA, ARRIBA, ABAJO, IZQ, DER, IZQ_ABAJO, DER_ABAJO]
 
+FACTOR_TIEMPO = 1000 # milisegundos
+
+def modelo_lineal(x, m, b):
+    return m * x + b
+
+def modelo_cuadratico(x, a, b, c):
+    return a * x**2 + b * x + c
+
 def es_contiguo(set_barco):
     posiciones = list(set_barco)
     visitados = set()

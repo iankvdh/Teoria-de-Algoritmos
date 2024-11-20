@@ -2,7 +2,23 @@
 
 El presente trabajo busca evaluar el desarrollo y análisis de un algoritmo de  para resolver un Problema NP-Completo, así como el análisis de posibles aproximaciones.
 
-## Estructura del proyecto
+---
+
+## **Índice**
+1. [Estructura del Proyecto](#estructura-del-proyecto)  
+2. [Requisitos](#requisitos)  
+3. [Formato de los Archivos](#formato-de-los-archivos)  
+   - [Archivo de Entrada](#1-archivo-de-entrada)  
+   - [Archivo de Resultados](#2-archivo-de-resultados-esperados-y-validados)  
+4. [Cómo Ejecutar el Programa](#cómo-ejecutar-el-programa)  
+   - [Backtracking](#1-backtracking)  
+   - [Programación Lineal (PL)](#2-programación-lineal-pl)  
+   - [Validador](#3-validador)  
+5. [Notas](#notas)  
+
+---
+
+## **Estructura del Proyecto**
 
 ```
 📁 TP3/
@@ -27,132 +43,148 @@ Puede instalar estas dependencias como se detalla en [README.md](../README.md).
 
 -----------------
 
-## **Cómo ejecutar los conjuntos de datos**
+## **Formato de los Archivos**
 
-Este proyecto permite procesar y validar archivos de datos para resolver problemas de distribución utilizando dos métodos principales: **backtracking** y **validador**. A continuación, se detallan las instrucciones para ejecutar ambos métodos, así como los formatos requeridos para los archivos de entrada y salida.
+### 1. **Archivo de entrada**
+- Contiene:
+  - Demandas de las filas.
+  - Demandas de las columnas.
+  - Largos de los barcos.
+- Las secciones de filas y columnas están separadas por una línea en blanco.
 
----
+**Ejemplo:**
+```txt
+# ejemplo del archivo 10_10_10.txt
+3
+2
+2
+4
+2
+1
+1
+2
+3
+0
 
-### **Ejecutar con el método Backtracking**
+1
+2
+1
+3
+2
+2
+3
+1
+5
+0
 
-#### **1. Preparar el entorno**
-1. Clone este repositorio o descargue los archivos directamente. Asegúrese de que todos los archivos necesarios estén presentes en su directorio de trabajo.
-2. Consulte el archivo [README.md](../README.md) original para verificar los requisitos previos y configuraciones.
-
-#### **2. Colocar archivos de entrada**
-- Los archivos de entrada deben estar ubicados en la carpeta `data/`.
-- Cada archivo debe cumplir con el **formato de entrada** especificado más abajo.
-
-#### **3. Ejecutar desde la terminal**
-Abra una terminal y ejecute el programa usando el comando adecuado, por ejemplo:
-```bash
-python .\algoritmos\backtracking.py
+3
+1
+1
+2
+4
+2
+1
+3
+1
+2
 ```
 
 ---
 
-### **Ejecutar con el método Validador**
+### 2. **Archivo de resultados esperados y validados**
+- Contiene información sobre los barcos colocados y las demandas cumplidas.
+  
+**Ejemplo:**
+```txt
+10_10_10.txt
+Posiciones:
+0: (0, 8) - (3, 8)
+1: (0, 6) - (2, 6)
+2: (8, 3) - (8, 5)
+3: (3, 0) - (3, 1)
+4: (3, 3) - (4, 3)
+5: (7, 7) - (7, 8)
+6: (0, 2)
+7: (4, 5)
+8: (5, 1)
+9: (6, 4)
+Demanda cumplida: 40
+Demanda total: 40
+```
 
-#### **1. Preparar el entorno**
-1. Clone este repositorio o descargue los archivos directamente.
-2. Verifique que todos los archivos necesarios están presentes, como se detalla en [README.md](../README.md).
+> ⚠️ **Importante**: Si desea que su archivo de entrada sea integrado en la ejecución de gráficos, deberá agregarlo a la carpeta `/data`. 
 
-#### **2. Colocar archivos de entrada**
-- Los archivos de entrada deben estar ubicados en la carpeta `data_validador/`.
-- Cada archivo debe cumplir con el **formato de entrada** especificado más abajo.
+---
 
-#### **3. Ejecutar desde la terminal**
-Ejecute el programa usando el siguiente comando en la terminal:
+## **Cómo Ejecutar el Programa**
+
+### 1. **Backtracking**
+1. Seleccione la opción `1` en el menú.
+2. Ingrese la **ruta absoluta** del archivo de entrada que desea analizar. 
+   - El archivo debe estar en formato `.txt`.
+3. El programa procesará el archivo y mostrará los resultados en la consola.
+
+**Ejemplo de ejecución:**
 ```bash
-python .\algoritmos\validador.py 
+$ python main.py
+----- TP3 - TDA - 2C 2024 -----
+Indique qué desea ejecutar:
+1) Backtracking
+2) Programación Lineal
+3) Validador
+Ingrese una opción (1-3): 1
+Ingrese la ruta absoluta del archivo de Backtracking: /ruta/a/10_10_10.txt
+# Resultados procesados mostrados en la consola.
 ```
 
 ---
 
-### **Formato de los archivos de entrada**
+### 2. **Programación Lineal (PL)**
+1. Seleccione la opción `2` en el menú.
+2. Ingrese la **ruta absoluta** del archivo de entrada.
+   - Actualmente, el método está desactivado (requiere implementación de `mostrar_resultados_ruta_abs_pl`).
 
-Los archivos de entrada deben tener la extensión `.txt` y estar estructurados de la siguiente manera:
-
-1. **Formato del archivo de entrada:**
-   - El archivo contiene:
-     - `n` líneas iniciales con las demandas de las filas.
-     - `m` líneas siguientes con las demandas de las columnas.
-     - `k` líneas finales con los largos de los barcos.
-   - Las secciones de filas y columnas están separadas por una **línea en blanco**.
-
-   **Ejemplo de archivo de entrada:**
-   ```
-    # ejemplo del archivo 10_10_10.txt
-    3
-    2
-    2
-    4
-    2
-    1
-    1
-    2
-    3
-    0
-
-    1
-    2
-    1
-    3
-    2
-    2
-    3
-    1
-    5
-    0
-
-    3
-    1
-    1
-    2
-    4
-    2
-    1
-    3
-    1
-    2
-   ```
-
-2. **Formato de los resultados esperados y validados:**
-   - Cada archivo de resultados debe seguir este formato:
-     - Nombre del archivo analizado: `<nombre_archivo>.txt`.
-     - Posiciones de los barcos en el formato:
-       `Índice: (fila_inicio, columna_inicio) - (fila_fin, columna_fin)`
-     - Los barcos de una sola celda se representan como:
-       `Índice: (fila, columna)`
-     - Indicadores de demanda cumplida y total.
-
-   **Ejemplo de archivo de resultados:**
-   ```
-   10_10_10.txt
-   Posiciones:
-   0: (0, 8) - (3, 8)
-   1: (0, 6) - (2, 6)
-   2: (8, 3) - (8, 5)
-   3: (3, 0) - (3, 1)
-   4: (3, 3) - (4, 3)
-   5: (7, 7) - (7, 8)
-   6: (0, 2)
-   7: (4, 5)
-   8: (5, 1)
-   9: (6, 4)
-   Demanda cumplida: 40
-   Demanda total: 40
-   ```
+**Ejemplo de ejecución:**
+```bash
+$ python main.py
+----- TP3 - TDA - 2C 2024 -----
+Indique qué desea ejecutar:
+1) Backtracking
+2) Programación Lineal
+3) Validador
+Ingrese una opción (1-3): 2
+Ingrese la ruta absoluta del archivo de Programación Lineal: /ruta/a/10_10_10.txt
+# Resultados procesados mostrados en la consola.
+```
 
 ---
 
-### **Notas importantes**
-1. **Comentarios en los archivos de entrada:**
-   - Las líneas que comienzan con `#` son ignoradas por el programa.
-2. **Estructura de carpetas:**
-   - Todos los archivos de entrada deben estar en las carpetas correspondientes (`data/` para Backtracking y `data_validador/` para Validador).
-3. **Resultados esperados:**
-   - Asegúrese de incluir un archivo de resultados esperados para cada archivo de entrada.
+### 3. **Validador**
+1. Seleccione la opción `3` en el menú.
+2. Ingrese las rutas absolutas de:
+   - El archivo de entrada (tablero y demandas).
+   - El archivo de resultados esperados.
+3. El programa comparará las demandas con los resultados del archivo y mostrará si son correctos.
+
+**Ejemplo de ejecución:**
+```bash
+$ python main.py
+----- TP3 - TDA - 2C 2024 -----
+Indique qué desea ejecutar:
+1) Backtracking
+2) Programación Lineal
+3) Validador
+Ingrese una opción (1-3): 3
+Ingrese la ruta absoluta del archivo de Validador: /ruta/a/10_10_10.txt
+Ingrese la ruta absoluta del archivo de Resultados Validador: /ruta/a/resultados_10_10_10.txt
+# Resultados de validación mostrados en la consola.
+```
 
 ---
+
+## **Notas**
+- **Errores comunes:**
+  - Ingresar rutas incorrectas o archivos que no terminan en `.txt`.
+  - Archivos con formatos no compatibles.
+- **Mensajes de error:** El programa mostrará advertencias en caso de errores en los formatos o rutas.
 

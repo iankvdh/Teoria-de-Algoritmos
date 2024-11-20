@@ -1,5 +1,4 @@
-import time
-from leer_archivos import leer_inputs, leer_resultados_esperados, leer_archivos, CARPETA
+from algoritmos.leer_archivos import leer_inputs, leer_resultados_esperados
 
 class Batalla_Naval:
     tablero = None
@@ -143,7 +142,13 @@ class Batalla_Naval:
             if len(posiciones_barcos[i]) <= 0:
                 posiciones_barcos[i] = None
         
-        return posiciones_barcos
+        for i, pos in enumerate(posiciones_barcos):
+            if pos is None:
+                print(f"Barco {i}: None")
+            elif len(pos) == 1:
+                print(f"Barco {i}: ({pos[0][0]}, {pos[0][1]})")
+            else:
+                print(f"Barco {i}: ({pos[0][0]}, {pos[0][1]}) - ({pos[-1][0]}, {pos[-1][1]})")
     
 
     def get_best_grid(self):
@@ -152,31 +157,14 @@ class Batalla_Naval:
     def get_optimal_demand(self):
         return self.maxima_demanda_cumplida
     
-def main():
-    archivos = leer_archivos(CARPETA)
-    for archivo in archivos:
-        demandas_filas, demandas_columnas, barcos = leer_inputs('data/' + archivo)
-        _, demanda_cumplida_esperada, demanda_total = leer_resultados_esperados('data/' + 'Resultados Esperados.txt', archivo)
-
-        print("----------------------------", archivo ,"----------------------------")
-        print("Demanda cumplida esperada:", demanda_cumplida_esperada)
-        print("Demanda total:", demanda_total)
-        start_time = time.time()
-        batalla_naval = Batalla_Naval(demandas_filas, demandas_columnas, barcos)
-        end_time = time.time()  
-        print("Demanda obtenida: ", batalla_naval.get_optimal_demand())
-        print(f"Tiempo de ejecucion: {end_time - start_time} segundos")
-        #batalla_naval.print_solution()
-        pos_barcos = batalla_naval.print_posiciones_barcos()
-        print("Posiciones:")
-        for i in range(len(pos_barcos)):
-            if pos_barcos[i] is None:
-                print(f"{i}: None")
-            else:
-                if len(pos_barcos[i]) == 1:
-                    print(f"{i}: {pos_barcos[i][0]}")
-                else:
-                    print(f"{i}: {pos_barcos[i][0]} - {pos_barcos[i][-1]}")
-        print("-------------------------------------------------------------------")
-
-main()
+def mostrar_resultados_ruta_abs_bt(ruta_absoluta):
+    demandas_filas, demandas_columnas, barcos = leer_inputs(ruta_absoluta)
+    batalla_naval = Batalla_Naval(demandas_filas, demandas_columnas, barcos)
+    print(" --------------- Resultados --------------- ")
+    print("Tablero:")
+    batalla_naval.print_solution()
+    print("Demanda cumplida:", batalla_naval.get_optimal_demand())
+    print("Demanda total: ", sum(demandas_filas) + sum(demandas_columnas))
+    print("Posiciones de los barcos:")
+    batalla_naval.print_posiciones_barcos()
+    print(" ------------------------------------------ ")
