@@ -51,37 +51,45 @@ def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
     barco_actual = 0
     demanda_restante_filas = restricciones_filas[:]
     demanda_restante_columnas = restricciones_columnas[:]
-
+    pude_poner = False
     for restriccion in restricciones:
         idx, demanda, es_fila = restriccion
-        largo_barco = barcos.pop(0)
-        
+        print(demanda, barco_actual, es_fila)
+        pude_poner = False
         if not barcos:
             break
+        largo_barco = barcos.pop(0)
         # Ir a fila/columna de mayor demanda, 
-        if es_fila:
-            idx_fila = idx
-            for j in range(m):
-                # y ubicar el barco de mayor longitud en dicha fila/columna en algún lugar válido. 
-                # Si el barco de mayor longitud es más largo que dicha demanda, simplemente saltearlo y seguir con el siguiente. 
-       
+        while not pude_poner:
+            if es_fila:
+                idx_fila = idx
+                for j in range(m):
+                    # y ubicar el barco de mayor longitud en dicha fila/columna en algún lugar válido. 
+                    # Si el barco de mayor longitud es más largo que dicha demanda, simplemente saltearlo y seguir con el siguiente. 
+        
 
-                if entra_en_el_tablero(tablero, idx_fila, j, largo_barco, 0) \
-                    and not exede_demanda(idx_fila, j, largo_barco, 0, demanda_restante_filas, demanda_restante_columnas) \
-                    and not tiene_adyacentes(tablero, idx_fila, j, largo_barco, 0, n, m):
-                    tablero, demanda_restante_filas, demanda_restante_columnas = colocar_barco(tablero, idx_fila, j, 0, largo_barco, barco_actual, demanda_restante_filas, demanda_restante_columnas)
-                    barco_actual += 1         
-                    break
-        else:
-            idx_col = idx
-            for i in range(n):
+                    if entra_en_el_tablero(tablero, idx_fila, j, largo_barco, 0) \
+                        and not exede_demanda(idx_fila, j, largo_barco, 0, demanda_restante_filas, demanda_restante_columnas) \
+                        and not tiene_adyacentes(tablero, idx_fila, j, largo_barco, 0, n, m):
+                        tablero, demanda_restante_filas, demanda_restante_columnas = colocar_barco(tablero, idx_fila, j, 0, largo_barco, barco_actual, demanda_restante_filas, demanda_restante_columnas)
+                        barco_actual += 1
+                        pude_poner = True    
+                        break
+            else:
+                idx_col = idx
+                for i in range(n):
 
-                if entra_en_el_tablero(tablero, i, idx_col, largo_barco, 1) \
-                    and not exede_demanda(i, idx_col, largo_barco, 1, demanda_restante_filas, demanda_restante_columnas) \
-                    and not tiene_adyacentes(tablero, i, idx_col, largo_barco, 1, n, m):
-                    tablero, demanda_restante_filas, demanda_restante_columnas = colocar_barco(tablero, i, idx_col, 1, largo_barco, barco_actual, demanda_restante_filas, demanda_restante_columnas)
-                    barco_actual += 1
-                    break
+                    if entra_en_el_tablero(tablero, i, idx_col, largo_barco, 1) \
+                        and not exede_demanda(i, idx_col, largo_barco, 1, demanda_restante_filas, demanda_restante_columnas) \
+                        and not tiene_adyacentes(tablero, i, idx_col, largo_barco, 1, n, m):
+                        tablero, demanda_restante_filas, demanda_restante_columnas = colocar_barco(tablero, i, idx_col, 1, largo_barco, barco_actual, demanda_restante_filas, demanda_restante_columnas)
+                        barco_actual += 1
+                        pude_poner = True    
+                        break
+            if not barcos:
+                break
+            largo_barco = barcos.pop(0)
+            
 
 
 def entra_en_el_tablero(tablero, fila, col, largo, orientacion):
