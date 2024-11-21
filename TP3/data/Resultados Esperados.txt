@@ -1,6 +1,16 @@
 Los resultados mostrados aquí son óptimos. Es decir, el resultado de la demanda cumplida debe coincidir con el mostrado.
 Si llegan a otra secuencia de posiciones que lleven al mismo valor óptimo, también será correcto, por supuesto.
 
+3_3_4.txt
+Posiciones:
+0: (0, 0)
+1: (2, 0)
+2: (0, 2)
+3: (2, 2)
+Demanda cumplida: 8
+Demanda total: 14
+
+
 3_3_2.txt
 Posiciones:
 0: (0, 1)
