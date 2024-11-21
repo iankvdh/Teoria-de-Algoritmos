@@ -25,20 +25,24 @@ def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
     demanda_restante_filas = restricciones_filas[:]
     demanda_restante_columnas = restricciones_columnas[:]
     pude_poner = False
-    for restriccion in restricciones:
-        idx, demanda, es_fila = restriccion
-        pude_poner = False
-        if not barcos:
-            break
+
+    while barcos:
         largo_barco = barcos.pop(0)
-        # Ir a fila/columna de mayor demanda, 
+        pude_poner = False
+
         while not pude_poner:
+            if not restricciones:
+                break
+            restriccion = restricciones.pop(0)
+            idx, demanda, es_fila = restriccion
+            while largo_barco > demanda:
+                if not barcos:
+                    break
+                largo_barco = barcos.pop(0)
+                
             if es_fila:
                 idx_fila = idx
-                for j in range(m):
-                    # y ubicar el barco de mayor longitud en dicha fila/columna en algún lugar válido. 
-                    # Si el barco de mayor longitud es más largo que dicha demanda, simplemente saltearlo y seguir con el siguiente. 
-                    
+                for j in range(m):                                         
                     if entra_en_el_tablero(tablero, idx_fila, j, largo_barco, 0) \
                         and not exede_demanda(idx_fila, j, largo_barco, 0, demanda_restante_filas, demanda_restante_columnas) \
                         and not tiene_adyacentes(tablero, idx_fila, j, largo_barco, 0, n, m):
@@ -49,7 +53,6 @@ def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
             else:
                 idx_col = idx
                 for i in range(n):
-
                     if entra_en_el_tablero(tablero, i, idx_col, largo_barco, 1) \
                         and not exede_demanda(i, idx_col, largo_barco, 1, demanda_restante_filas, demanda_restante_columnas) \
                         and not tiene_adyacentes(tablero, i, idx_col, largo_barco, 1, n, m):
@@ -57,9 +60,7 @@ def aproximacion(tablero, restricciones_filas, restricciones_columnas, barcos):
                         barco_actual += 1
                         pude_poner = True    
                         break
-            if not barcos:
-                break
-            largo_barco = barcos.pop(0)
+    
             
 
 
@@ -144,4 +145,6 @@ def mostrar_resultados_ruta_abs_aprox(ruta_abs):
     aproximacion(tablero, demandas_filas, demandas_columnas, barcos)
     print_solution(demandas_filas, demandas_columnas, tablero)
     print_demanda_cumplida(tablero)
-    
+
+
+mostrar_resultados_ruta_abs_aprox("D:\Bibliotecas\Documentos\TDA-FIUBA-75.29\TP3\data\\8_7_10.txt")
