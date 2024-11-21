@@ -3,6 +3,12 @@ from algoritmos.leer_archivos import *
 from algoritmos.aproximacion import *
 import time
 from algoritmos.auxiliares import  FACTOR_TIEMPO
+from algoritmos.crear_juegos import generar_juego_random
+
+LIMITE_MIN = 160
+LIMITE_MAX = 1000
+MIN_NUM_BARCOS = 50
+CANT_JUEGOS_RANDOMS = 40
 
 def aprox_tiempo_vs_matriz():
     archivos = leer_archivos(CARPETA)
@@ -24,6 +30,16 @@ def aprox_tiempo_vs_matriz():
         tiempo_ejecucion = (end_time - start_time) * FACTOR_TIEMPO
 
         resultados.append((matriz, tiempo_ejecucion, len_filas * len_columnas, cantidad_barcos))
+
+    for _ in range(CANT_JUEGOS_RANDOMS):
+        restricciones_filas, restricciones_columnas, longitudes_barcos_colocados, _ = generar_juego_random(LIMITE_MIN, LIMITE_MAX, MIN_NUM_BARCOS)
+        len_longitudes_barcos_colocados = len(longitudes_barcos_colocados)
+        tablero = [[VACIO for _ in range(len(restricciones_columnas))] for _ in range(len(restricciones_filas))]
+        start_time = time.time()
+        batalla_naval = aproximacion(tablero, restricciones_filas, restricciones_columnas, longitudes_barcos_colocados)
+        end_time = time.time()
+        tiempo_ejecucion = (end_time - start_time) * FACTOR_TIEMPO
+        resultados.append((f'{len(restricciones_filas)}x{len(restricciones_columnas)}', tiempo_ejecucion, len(restricciones_filas) * len(restricciones_columnas), len_longitudes_barcos_colocados))
 
     # Ordenar resultados por una proporcion de datos de entrada (n*m)^k
     resultados = sorted(resultados, key=lambda x: x[2]**x[3])

@@ -1,6 +1,12 @@
 import matplotlib.pyplot as plt
 from algoritmos.leer_archivos import *
 from algoritmos.aproximacion import *
+from algoritmos.crear_juegos import generar_juego_random
+
+LIMITE_MIN = 160
+LIMITE_MAX = 1000
+MIN_NUM_BARCOS = 80
+CANT_JUEGOS_RANDOMS = 40
 
 def aprox_cota():
     archivos = leer_todos_archivos(CARPETA)
@@ -27,6 +33,25 @@ def aprox_cota():
         demanda_subopt = cant*2 # Resultado suboptimo
         demanda_opt = demanda_cumplida_esperada # Resultado optimo
 
+        resultados.append((matriz, len_filas * len_columnas, cantidad_barcos, demanda_subopt/demanda_opt ))
+
+    for _ in range(CANT_JUEGOS_RANDOMS):
+        restricciones_filas, restricciones_columnas, longitudes_barcos_colocados, demanda_cumplida_esperada_gen = generar_juego_random(LIMITE_MIN, LIMITE_MAX, MIN_NUM_BARCOS)
+        len_filas = len(restricciones_filas)
+        len_columnas = len(restricciones_columnas)
+        matriz = f'{len_filas}x{len_columnas}'
+        cantidad_barcos = len(longitudes_barcos_colocados)
+        tablero = [[VACIO for _ in range(len(restricciones_columnas))] for _ in range(len(restricciones_filas))]
+        batalla_naval = aproximacion(tablero, restricciones_filas, restricciones_columnas, longitudes_barcos_colocados)
+        n = len(tablero)
+        m = len(tablero[0])
+        cant = 0
+        for i in range(n):
+            for j in range(m):
+                if tablero[i][j] != VACIO:
+                    cant += 1
+        demanda_subopt = cant*2
+        demanda_opt = demanda_cumplida_esperada_gen
         resultados.append((matriz, len_filas * len_columnas, cantidad_barcos, demanda_subopt/demanda_opt ))
 
     # Ordenar resultados por una proporcion de datos de entrada (n*m)^k
