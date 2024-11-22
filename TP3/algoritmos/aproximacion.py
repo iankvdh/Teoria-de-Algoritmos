@@ -145,6 +145,3 @@ def mostrar_resultados_ruta_abs_aprox(ruta_abs):
     aproximacion(tablero, demandas_filas, demandas_columnas, barcos)
     print_solution(demandas_filas, demandas_columnas, tablero)
     print_demanda_cumplida(tablero)
-
-
-mostrar_resultados_ruta_abs_aprox("D:\Bibliotecas\Documentos\TDA-FIUBA-75.29\TP3\data\\8_7_10.txt")

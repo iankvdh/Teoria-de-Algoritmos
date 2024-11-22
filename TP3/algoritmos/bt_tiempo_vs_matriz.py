@@ -24,6 +24,7 @@ def bt_mostrar_tiempo_vs_matriz():
 
         resultados.append((matriz, tiempo_ejecucion, len_filas * len_columnas, cantidad_barcos))
 
+
     # Ordenar resultados por una proporcion de datos de entrada (n*m)^k
     resultados = sorted(resultados, key=lambda x: x[2]**x[3])
 

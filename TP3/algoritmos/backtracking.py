@@ -1,4 +1,4 @@
-from algoritmos.leer_archivos import leer_inputs, leer_resultados_esperados
+from algoritmos.leer_archivos import leer_inputs
 
 class Batalla_Naval:
     tablero = None
