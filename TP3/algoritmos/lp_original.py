@@ -20,6 +20,17 @@ def batalla_naval(demandas_filas, demandas_columnas, barcos):
     k = len(barcos)  # Número de barcos
 
     # Variables de decisión
+    """
+    Variables de decision:
+    - Yh_i: Indica si el barco i está en horizontal
+    - Yv_i: Indica si el barco i está en vertical
+    - Pos_fila_i: Fila de inicio del barco i
+    - Pos_col_i: Columna de inicio del barco i
+
+    Variables auxiliares:
+    - demandas_no_cumplidas_fila_x: Demanda no cumplida en la fila x
+    - demandas_no_cumplidas_col_y: Demanda no cumplida en la columna y
+    """
     Yh = {i: LpVariable(f"Yh_{i}", cat="Binary") for i in range(k)}  # Barco i en horizontal
     Yv = {i: LpVariable(f"Yv_{i}", cat="Binary") for i in range(k)}  # Barco i en vertical
     Pos_fila_i = {i: LpVariable(f"Pos_fila_i_{i}", lowBound=0, cat="Integer") for i in range(k)}  # Fila de inicio del barco i
@@ -27,13 +38,9 @@ def batalla_naval(demandas_filas, demandas_columnas, barcos):
 
     # Variables auxiliares
     demandas_no_cumplidas_fila = {x: LpVariable(f"demanda_no_cumplida_fila_{x}", lowBound=0, cat="Integer") for x in range(n)}  # Demanda no cumplida en la fila x
-    for x in range(n):
-        demandas_no_cumplidas_fila[x].setInitialValue(demandas_filas[x])  # Inicializar las demandas no cumplidas en las filas
     demandas_no_cumplidas_col = {y: LpVariable(f"demanda_no_cumplida_col_{y}", lowBound=0, cat="Integer") for y in range(m)}  # Demanda no cumplida en la columna y
-    for y in range(m):
-        demandas_no_cumplidas_col[y].setInitialValue(demandas_columnas[y]) # Inicializar las demandas no cumplidas en las columnas
 
-    # Función objetivo
+    # Función objetivo (minimizar la demanda no cumplida)
     model = LpProblem("Minimizar_demanda_no_cumplida", LpMinimize)
     model += lpSum([demandas_no_cumplidas_fila[x] for x in range(n)]) + lpSum([demandas_no_cumplidas_col[y] for y in range(m)])
 
@@ -47,19 +54,58 @@ def batalla_naval(demandas_filas, demandas_columnas, barcos):
         model += Pos_fila_i[i] + barcos[i] * Yh[i] <= n 
         model += Pos_col_i[i] + barcos[i] * Yv[i] <= m 
 
-    
-    # Cumplir demandas de filas (esto esta bien)
+    # 3. Cumplir con las demandas de las filas
     for x in range(n):
-        model += lpSum([Yh[i] * barcos[i] for i in range(k) if Pos_fila_i[i] == x]) + lpSum(Yv[i] for i in range(k) if Pos_fila_i[i] == x) + demandas_no_cumplidas_fila[x] == demandas_filas[x]
-        
-    # Cumplir demandas de columnas (esto esta bien)
-    for y in range(m):
-        model += lpSum([Yv[i] * barcos[i] for i in range(k) if Pos_col_i[i] == y]) + lpSum(Yh[i] for i in range(k) if Pos_col_i[i] == y) + demandas_no_cumplidas_col[y] == demandas_columnas[y]
+        contribucion_horizontales = lpSum([Yh[i] * barcos[i] for i in range(k) if Pos_fila_i[i] == x])
+        contribucion_verticales = lpSum(Yv[i] for i in range(k) if Pos_fila_i[i] == x)
+        model += contribucion_horizontales + contribucion_verticales <= demandas_filas[x]
     
-    # 5. Restricciones de no superposicion de barcos
+    # 4. Cumplir con las demandas de las columnas
+    for y in range(m):
+        contribucion_horizontales = lpSum([Yh[i] * barcos[i] for i in range(k) if Pos_col_i[i] == y])
+        contribucion_verticales = lpSum(Yv[i] for i in range(k) if Pos_col_i[i] == y)
+        model += contribucion_horizontales + contribucion_verticales <= demandas_columnas[y]
+                
+    # 5. Demandas no cumplidas en las filas 
+    for x in range(n):
+        model += demandas_no_cumplidas_fila[x] >= 0
+        model += demandas_no_cumplidas_fila[x] + lpSum([Yh[i] * barcos[i] for i in range(k) if Pos_fila_i[i] == x]) + lpSum(Yv[i] for i in range(k) if Pos_fila_i[i] == x) == demandas_filas[x]
 
-
-    # 6. Restricciones de adyacencia entre barcos (no pueden haber barcos al rededor de un barco)
+    # 6. Demandas no cumplidas en las columnas
+    for y in range(m):
+        model += demandas_no_cumplidas_col[y] >= 0
+        model += demandas_no_cumplidas_col[y] + lpSum([Yv[i] * barcos[i] for i in range(k) if Pos_col_i[i] == y]) + lpSum(Yh[i] for i in range(k) if Pos_col_i[i] == y) == demandas_columnas[y]
+        
+    # 7. Restricciones de no superposición de barcos Y no adyacentes (es medio un choclo)
+    for i in range(k):
+        for j in range(k):
+            if i != j:
+                if Yh[i] and Yh[j]:
+                    if Pos_fila_i[i] == Pos_fila_i[j] or Pos_fila_i[i] == Pos_fila_i[j] + 1 or Pos_fila_i[i] == Pos_fila_i[j] - 1:
+                        condicion_1 = Pos_fila_i[i] <= Pos_fila_i[j] + barcos[j] + 2
+                        condicion_2 = Pos_fila_i[j] <= Pos_fila_i[i] + barcos[i] + 2
+                        model += condicion_1 + condicion_2 >= 2
+                elif Yv[i] and Yv[j]:
+                    if Pos_col_i[i] == Pos_col_i[j] or Pos_col_i[i] == Pos_col_i[j] + 1 or Pos_col_i[i] == Pos_col_i[j] - 1:
+                        condicion_1 = Pos_col_i[i] <= Pos_col_i[j] + barcos[j] + 2
+                        condicion_2 = Pos_col_i[j] <= Pos_col_i[i] + barcos[i] + 2
+                        model += condicion_1 + condicion_2 >= 2
+                elif Yh[i] and Yv[j]:
+                    if Pos_fila_i[i] == Pos_fila_i[j] or Pos_fila_i[i] == Pos_fila_i[j] + 1 or Pos_fila_i[i] == Pos_fila_i[j] - 1:
+                        if Pos_fila_i[j] >= Pos_fila_i[i]:
+                            condicion_1 = Pos_col_i[j] <= Pos_col_i[i] - 2
+                            condicion_2 = Pos_col_i[i] + barcos[i] <= Pos_col_i[j] - 1
+                            model += condicion_1 + condicion_2 >= 2
+                        else:
+                            model += Pos_col_i[j] <= Pos_col_i[i] - 2
+                elif Yv[i] and Yh[j]:
+                    if Pos_col_i[i] == Pos_col_i[j] or Pos_col_i[i] == Pos_col_i[j] + 1 or Pos_col_i[i] == Pos_col_i[j] - 1:
+                        if Pos_col_i[j] >= Pos_col_i[i]:
+                            condicion_1 = Pos_fila_i[j] <= Pos_fila_i[i] - 2
+                            condicion_2 = Pos_fila_i[i] + barcos[i] <= Pos_fila_i[j] - 1
+                            model += condicion_1 + condicion_2 >= 2
+                        else:
+                            model += Pos_fila_i[j] <= Pos_fila_i[i] - 2
 
 
     # Resolver el problema
