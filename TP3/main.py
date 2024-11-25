@@ -17,7 +17,7 @@ if __name__ == "__main__":
             print("Opción no válida.")
     if opcion == 1:
         while True:
-            ruta_abs_bt = input("Ingrese la ruta absoluta del archivo de Backtracking: ")
+            ruta_abs_bt = input("Ingrese la ruta absoluta del archivo para ejecutar con Backtracking: ")
             if ruta_abs_bt.endswith(".txt"):
                 break
             else:
@@ -25,7 +25,7 @@ if __name__ == "__main__":
         mostrar_resultados_ruta_abs_bt(ruta_abs_bt)
     elif opcion == 2:
         while True:
-            ruta_abs_pl = input("Ingrese la ruta absoluta del archivo de Programación Lineal: ")
+            ruta_abs_pl = input("Ingrese la ruta absoluta del archivo para ejecutar con Programación Lineal: ")
             if ruta_abs_pl.endswith(".txt"):
                 break
             else:
@@ -43,7 +43,7 @@ if __name__ == "__main__":
         mostrar_resultados_ruta_abs_validador(ruta_abs_validador, ruta_abs_validador_resultados)
     elif opcion == 4:
         while True:
-            ruta_abs_aprox = input("Ingrese la ruta absoluta del archivo de Aproximación: ")
+            ruta_abs_aprox = input("Ingrese la ruta absoluta del archivo para ejecutar con Aproximación: ")
             if ruta_abs_aprox.endswith(".txt"):
                 break
             else:

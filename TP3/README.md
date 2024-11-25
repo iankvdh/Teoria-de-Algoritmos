@@ -29,6 +29,10 @@ El presente trabajo busca evaluar el desarrollo y análisis de un algoritmo de  
 ├── 📂 data_validador/            # Contiene archivos de texto con los datos de entrada y resultados esperados particulares del validador
 ├── 📄 Informe_TP3.pdf            # Informe detallado del proyecto
 ├── 📑 README.md                  # Documentación del proyecto
+├── 📈 grafico.py                 # Código principal para generar gráficos
+├── ⚙️ main.py                    # Implementación para ejecutar una Batalla Naval con alguno de los algoritmos implementados
+└── ▶️ ejecutar_graficos.sh        # Script bash para ejecutar los gráficos
+
 ```
 
 ## Requisitos
