@@ -10,7 +10,7 @@ def n_coloreo(grafo, n):
     return n_coloreo_aux(grafo, v, colores, 0, n)
 
 def es_compatible(grafo, v, colores):
-    for w in grafo.obtener_adyacentes(v):
+    for w in grafo.adyacentes(v):
         if colores[w] == colores[v]:
             return False
     return True
@@ -29,7 +29,7 @@ def n_coloreo_aux(grafo, v, colores, color, n):
         del colores[v]
         return False
     
-    for w in grafo.obtener_adyacentes(v):
+    for w in grafo.adyacentes(v):
         if w in colores:
             continue
         for color in range(n):

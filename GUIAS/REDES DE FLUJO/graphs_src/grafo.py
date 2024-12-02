@@ -29,7 +29,7 @@ class Grafo:
         return aristas
 
     # obtiene los adyacentes de un vertice en el grafo
-    def obtener_adyacentes(self, vertice):
+    def adyacentes(self, vertice):
         return self.vertices[vertice].keys()
     
     # obtiene el peso de una arista

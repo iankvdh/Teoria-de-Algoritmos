@@ -10,7 +10,7 @@ def arbol_tendido_minimo_prim(grafo):
     cola = Heap()
     visitados = set()
     vertice = grafo.obtener_vertice_aleatorio()
-    for adyacente in grafo.obtener_adyacentes(vertice):
+    for adyacente in grafo.adyacentes(vertice):
         cola.encolar((vertice, adyacente, grafo.obtener_peso(vertice, adyacente)))
     
     while not cola.esta_vacia():
@@ -19,7 +19,7 @@ def arbol_tendido_minimo_prim(grafo):
             continue
         visitados.add(destino)
         nuevo_grafo.agregar_arista(origen, destino, peso)
-        for ady in grafo.obtener_adyacentes(destino):
+        for ady in grafo.adyacentes(destino):
             if ady not in visitados:
                 cola.encolar((destino, ady, grafo.obtener_peso(destino, ady)))
     return nuevo_grafo

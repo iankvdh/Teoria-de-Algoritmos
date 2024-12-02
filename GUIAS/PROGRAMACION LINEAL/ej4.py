@@ -36,7 +36,7 @@ def dominating_set_min(grafo):
 
     # Restricciones: para cada vértice u que pertenezca a V, o bien u está en el Dominating Set, o bien al menos uno de sus adyacentes está en el Dominating Set
     for u in vertices:
-        problema += x[u] + pulp.lpSum([x[v] for v in grafo.obtener_adyacentes(u)]) >= 1
+        problema += x[u] + pulp.lpSum([x[v] for v in grafo.adyacentes(u)]) >= 1
 
     problema.solve()
 

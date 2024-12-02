@@ -16,7 +16,7 @@ def orden_topologico_dfs_pila(grafo):
     return orden
 
 def _dfs_orden_topologico(grafo, vertice, visitados, pila):
-    for adyacente in grafo.obtener_adyacentes(vertice):
+    for adyacente in grafo.adyacentes(vertice):
         if adyacente not in visitados:
             visitados.add(adyacente)
             _dfs_orden_topologico(grafo, adyacente, visitados, pila)

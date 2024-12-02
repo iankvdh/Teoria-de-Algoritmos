@@ -14,7 +14,7 @@ def orden_topologico_grados_de_entrada(grafo):
     while not cola.esta_vacia():
         vertice = cola.desencolar()
         orden.append(vertice)
-        for adyacente in grafo.obtener_adyacentes(vertice):
+        for adyacente in grafo.adyacentes(vertice):
             grados[adyacente] -= 1
             if grados[adyacente] == 0:
                 cola.encolar(adyacente)

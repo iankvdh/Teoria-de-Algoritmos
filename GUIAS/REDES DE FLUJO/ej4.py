@@ -40,7 +40,7 @@ def obtener_camino_de_aumento(grafo_residuaol, fuente, sumidero):
             caminos_posibles.append(camino)
 
         # Exploramos los vecinos del nodo actual en el grafo residual
-        for w in grafo_residuaol.obtener_adyacentes(nodo_actual):
+        for w in grafo_residuaol.adyacentes(nodo_actual):
             if not visitados[w]:
                 heap.encolar(w)
                 visitados[w] = True

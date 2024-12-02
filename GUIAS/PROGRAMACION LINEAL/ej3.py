@@ -31,7 +31,7 @@ def vertex_cover_min(grafo):
     vertices = grafo.obtener_vertices()
     aristas = []
     for vertice in vertices:
-        for adyacente in grafo.obtener_adyacentes(vertice):
+        for adyacente in grafo.adyacentes(vertice):
             aristas.append((vertice, adyacente))
 
     problema = pulp.LpProblem("Vertex_Cover_Minimo", pulp.LpMinimize)

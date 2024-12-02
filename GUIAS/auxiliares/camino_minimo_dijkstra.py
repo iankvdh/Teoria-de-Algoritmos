@@ -14,7 +14,7 @@ def camino_minimo_dijkstra(grafo, origen):
     heap.encolar((origen, 0))
     while not heap.esta_vacia():
         vertice, distancia = heap.desencolar()
-        for adyacente in grafo.obtener_adyacentes(vertice):
+        for adyacente in grafo.adyacentes(vertice):
             peso = grafo.obtener_peso(vertice, adyacente)
             if distancias[vertice] + peso < distancias[adyacente]:
                 distancias[adyacente] = distancias[vertice] + peso

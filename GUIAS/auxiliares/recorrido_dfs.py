@@ -14,7 +14,7 @@ def dfs(grafo):
 
 def _dfs(grafo, vertice, visitados, padres, orden):
     visitados.add(vertice)
-    for adyacente in grafo.obtener_adyacentes(vertice):
+    for adyacente in grafo.adyacentes(vertice):
         if adyacente not in visitados:
             padres[adyacente] = vertice
             orden[adyacente] = orden[vertice] + 1

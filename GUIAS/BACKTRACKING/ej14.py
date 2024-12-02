@@ -28,7 +28,7 @@ def es_dominating_set(grafo, sol_parcial):
     visitados = set()
     for v in sol_parcial:
         visitados.add(v)
-        for w in grafo.obtener_adyacentes(v):
+        for w in grafo.adyacentes(v):
             visitados.add(w)
     for v in grafo.obtener_vertices():
         if v not in visitados:

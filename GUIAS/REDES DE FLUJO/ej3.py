@@ -17,7 +17,7 @@ def red_residual(grafo, flujo):
     for v in grafo.obtener_vertices():
         grafo_residuo.agregar_vertice(v)
     for v in grafo.obtener_vertices():
-        for w in grafo.obtener_adyacentes(v):
+        for w in grafo.adyacentes(v):
             # las mismas del grafo original pero con los pesos siendo la capacidad restante
             if flujo[(v, w)] < grafo.obtener_peso(v, w):
                 grafo_residuo.agregar_arista(v, w, grafo.obtener_peso(v, w) - flujo[(v, w)])

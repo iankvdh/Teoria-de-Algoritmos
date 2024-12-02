@@ -34,7 +34,7 @@ def vertex_cover_min_rec(grafo, vertices, sol_parcial, indice, sol_optima):
     return vertex_cover_min_rec(grafo, vertices, sol_parcial, indice+1, sol_optima)
 
 def es_valida(grafo, respuesta, v):
-    for w in grafo.obtener_adyacentes(v):
+    for w in grafo.adyacentes(v):
         if not w in respuesta:
             return False
     return True

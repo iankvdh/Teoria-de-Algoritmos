@@ -22,7 +22,7 @@ def _camino_hamiltoniano(grafo, vertice, sol_parcial):
     if len(sol_parcial) == len(grafo.obtener_vertices()):
         return sol_parcial
 
-    for w in grafo.obtener_adyacentes(vertice):
+    for w in grafo.adyacentes(vertice):
         if w not in sol_parcial:
             return _camino_hamiltoniano(grafo, w, sol_parcial)
 

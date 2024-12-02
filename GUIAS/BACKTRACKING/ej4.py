@@ -41,7 +41,7 @@ def ind_set(grafo, vertices, v_actual, visitados, sol_parcial):
 
 def es_compatible(grafo, sol_parcial):
     for v in sol_parcial:
-        for w in grafo.obtener_adyacentes(v):
+        for w in grafo.adyacentes(v):
             if w in sol_parcial:
                 return False
     return True

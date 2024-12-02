@@ -17,6 +17,6 @@ def calcular_grados_entrada(grafo):
     for vertice in grafo.obtener_vertices():
         grados[vertice] = 0
     for vertice in grafo.obtener_vertices():
-        for adyacente in grafo.obtener_adyacentes(vertice):
+        for adyacente in grafo.adyacentes(vertice):
             grados[adyacente] += 1
     return grados

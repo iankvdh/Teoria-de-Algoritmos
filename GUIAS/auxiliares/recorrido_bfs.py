@@ -20,7 +20,7 @@ def _bfs(grafo, origen, visitados, padres, orden):
     cola.encolar(origen)
     while not cola.esta_vacia():
         vertice = cola.desencolar()
-        for adyacente in grafo.obtener_adyacentes(vertice):
+        for adyacente in grafo.adyacentes(vertice):
             if adyacente not in visitados:
                 padres[adyacente] = vertice
                 orden[adyacente] = orden[vertice] + 1

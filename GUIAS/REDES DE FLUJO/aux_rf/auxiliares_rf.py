@@ -11,14 +11,14 @@ def flujo(grafo, fuente, sumidero):
     """
     flujo = {}
     for v in grafo.obtener_vertices():
-        for w in grafo.obtener_adyacentes(v):
+        for w in grafo.adyacentes(v):
             flujo[(v, w)] = 0
 
     grafo_residuo = Grafo()
     for v in grafo.obtener_vertices():
         grafo_residuo.agregar_vertice(v)
     for v in grafo.obtener_vertices():
-        for w in grafo.obtener_adyacentes(v):
+        for w in grafo.adyacentes(v):
             grafo_residuo.agregar_arista(v, w, grafo.obtener_peso(v, w))
 
     while (camino := obtener_camino(grafo_residuo, fuente, sumidero)) is not None:
@@ -45,7 +45,7 @@ def camino_minimo_dijkstra(grafo, origen):
     heap.encolar((origen, 0))
     while not heap.esta_vacia():
         vertice, distancia = heap.desencolar()
-        for adyacente in grafo.obtener_adyacentes(vertice):
+        for adyacente in grafo.adyacentes(vertice):
             peso = grafo.obtener_peso(vertice, adyacente)
             if distancias[vertice] + peso < distancias[adyacente]:
                 distancias[adyacente] = distancias[vertice] + peso

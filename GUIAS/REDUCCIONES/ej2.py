@@ -23,7 +23,7 @@ def vertex_cover_verifier(grafo, k, conjunto):
         return False
 
     for v in conjunto:
-        for w in grafo.obtener_adyacentes(v):
+        for w in grafo.adyacentes(v):
             if w not in conjunto:
                 return False
             
