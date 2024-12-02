@@ -20,34 +20,19 @@
 # En un caso alternativo donde solamente se consideren las bifurcaciones de Castelli, Gral Guido y Sevigne, la
 # única solución óptima sería colocar un móvil policial en Sevigne.
 
-# Algoritmo Greedy:
-# Iterar sobre las bifurcaciones.
-# Si la distancia entre la bifurcación actual y la anterior es mayor a 50, colocar un móvil policial.
-# Repetir hasta que no queden más bifurcaciones.
-
-# Complejidad: O(n) donde n es la cantidad de bifurcaciones.
 
 def patrullas(ciudades):
-    ciudades_ordenadas = sorted(ciudades, key=lambda x: x[1])
-    solucion = []
-
-    rango_max = float('-inf')
-    ultima_estacion = float('-inf')
-
-    for index, ciudad in enumerate(ciudades_ordenadas):
-        if ciudad[1] < rango_max or ciudad[1] < ultima_estacion + 50:
-            continue
-
-        if rango_max == float('-inf'):
-            rango_max = ciudad[1] + 50
-        elif ciudad[1] > rango_max:
-            solucion.append(ciudades_ordenadas[index - 1])
-            ultima_estacion = ciudades_ordenadas[index - 1][1]
-            rango_max = float('-inf')
-
-    if ciudades_ordenadas:
-        ultima_estacion = ciudades_ordenadas[-1]
-        if ultima_estacion[1] > ultima_estacion + 50:
-            solucion.append(ultima_estacion)
-
-    return solucion
+    if len(ciudades) == 0:
+        return []
+    ciudades_ord = sorted(ciudades, key=lambda x: x[1])
+    res = []
+    i = 0
+    n = len(ciudades_ord)
+    while i < n:
+        patrulla_abarca = ciudades_ord[i][1] + 50
+        while i < n and ciudades_ord[i][1] <= patrulla_abarca:
+            i += 1
+        res.append(ciudades_ord[i - 1])
+        while i < n and ciudades_ord[i][1] <= res[-1][1] + 50:
+            i += 1
+    return res

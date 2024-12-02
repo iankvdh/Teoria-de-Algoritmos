@@ -10,12 +10,22 @@
 # Iterar sobre las charlas restantes.
 # Si la charla actual comienza después de la charla seleccionada, seleccionarla.
 # Repetir hasta que no queden más charlas.
-# Complejidad: O(n log n) por el ordenamiento.
 
 def charlas_a_dar(charlas):
+    if len(charlas) == 0:
+        return []
     charlas.sort(key=lambda x: x[1])
     charlas_a_dar = [charlas[0]]
     for charla in charlas[1:]:
         if charla[0] >= charlas_a_dar[-1][1]:
             charlas_a_dar.append(charla)
     return charlas_a_dar
+
+"""
+Es un algortimo Greedy porque en cada paso buscamos el optimo local con el fin de llegar a un optimo global.
+En cada paso, seleccionamos la charla que termina antes, y luego seleccionamos la charla que comienza después 
+de la charla seleccionada. De esta forma, garantizamos que la cantidad de charlas seleccionadas sea máxima.
+Si, es un algoritmo óptimo, ya que selecciona la mayor cantidad de charlas posibles, y no existe una solución
+mejor que seleccionar la mayor cantidad de charlas posibles.
+Complejidad: O(n log n) por el ordenamiento.
+"""

@@ -16,7 +16,8 @@
 # Repetir hasta que no queden más elementos.
 # Complejidad: O(n log n) por el ordenamiento.
 
-def mochila(W, elementos):
+def mochila(elementos, W):
+    #ESTO ESTA MAL EN RPL xd
     elementos.sort(key=lambda x: x[0]/x[1], reverse=True)
     peso_actual = 0
     valor_actual = 0
@@ -27,3 +28,16 @@ def mochila(W, elementos):
             valor_actual += elemento[0]
             elementos_guardados.append(elemento)
     return elementos
+
+"""
+Es un algoritmo Greedy porque en cada paso buscamos el optimo local con el fin de llegar a un optimo global.
+En cada paso, seleccionamos el elemento con mayor valor/peso, maximizando el valor total de los elementos guardados.
+De esta forma, garantizamos que el valor total sea máximo. Si seleccionamos los elementos con menor valor/peso primero,
+el valor total será menor. Por lo tanto, seleccionar los elementos con mayor valor/peso primero maximiza el valor total.
+No, no es un algoritmo óptimo. Existen casos en los que seleccionar los elementos con mayor valor/peso no maximiza el valor
+total. Por ejemplo, si los elementos tienen valores muy altos y pesos muy bajos, seleccionar los elementos con mayor valor/peso
+no maximiza el valor total.
+Las diferencia si se pueden fraccionar los elementos es que se pueden seleccionar partes de los elementos y completar la mochila
+con partes de diferentes elementos. Sería mejor, ya que se pueden seleccionar partes de los elementos con mayor valor/peso, maximizando
+aún más el valor total.
+"""

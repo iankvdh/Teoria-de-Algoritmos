@@ -11,13 +11,24 @@
 # Si el valor actual es menor o igual al cambio restante, agregarlo al resultado.
 # Restar al cambio restante el valor actual.
 # Repetir hasta que no quede más cambio.
-# Complejidad: O(n log n) por la cota superior del ordenamiento.
 
-def cambio(monto, sistema_monetario):
-    sistema = sorted(sistema_monetario)[::-1]
-    cambio = {}
+def cambio(monedas, monto):
+    sistema = sorted(monedas)[::-1]
+    cambio = []
     for tipo_cambio in sistema:
-        dividendo = monto//tipo_cambio
-        monto = monto % tipo_cambio 
-        cambio[tipo_cambio] = dividendo  
+        if monto == 0:
+            break
+        cantidad = monto // tipo_cambio
+        monto -= cantidad * tipo_cambio
+        cambio.extend([tipo_cambio] * cantidad)
     return cambio
+
+"""
+Es un algoritmo Greedy porque en cada paso buscamos el optimo local con el fin de llegar a un optimo global.
+En cada paso, seleccionamos la moneda de mayor valor que sea menor o igual al cambio restante, maximizando la cantidad
+de monedas de mayor valor que se pueden utilizar. De esta forma, garantizamos que la cantidad de monedas utilizadas sea
+mínima. 
+Si, es un algoritmo óptimo, ya que selecciona la menor cantidad de monedas posibles, y no existe una solución mejor que
+seleccionar la menor cantidad de monedas posibles.
+Complejidad: O(n log n) por el ordenamiento.
+"""
