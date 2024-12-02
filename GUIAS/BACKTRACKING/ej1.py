@@ -1,31 +1,30 @@
 # Implementar por backtracking un algoritmo que, dado un grafo no dirigido y un numero n menor a V, 
 # devuelva si es posible obtener un subconjunto de n vertices tal que ningun par de vertices sea adyacente entre si.
 
-def subconjunto_n(grafo, n):
-    solucion = []
+def no_adyacentes(grafo, n):
+    'Devolver una lista con los n vértices, o None de no ser posible'
+    solucion = set()
     vertices = grafo.obtener_vertices()
-    return subconjunto_n_wrapper(grafo, n, vertices, 0, solucion)
+    subconjunto_n_wrapper(grafo, n, vertices, 0, solucion)
+    if len(solucion) == 0:
+        return None
+    return list(solucion)
 
 def subconjunto_n_wrapper(grafo, n, vertices, v_actual_i, solucion):
-    if len(solucion) == n: 
-        return es_compatible(grafo, solucion)
-    if v_actual_i == len(vertices):
-        return False
-    # poda?
-    if not es_compatible(grafo, solucion):
-        return False
-    
-    solucion.append(vertices[v_actual_i])
-    if subconjunto_n_wrapper(grafo, n, vertices, v_actual_i + 1, solucion):
+    if len(solucion) == n:
         return True
-    solucion.remove(vertices[v_actual_i])
+    if v_actual_i >= len(vertices):
+        return False
+    v_actual = vertices[v_actual_i]
+    if es_solucion(grafo, solucion, v_actual):
+        solucion.add(v_actual)
+        if subconjunto_n_wrapper(grafo, n, vertices, v_actual_i + 1, solucion):
+            return True
+        solucion.remove(v_actual)
     return subconjunto_n_wrapper(grafo, n, vertices, v_actual_i + 1, solucion)
-    
-def es_compatible(grafo, solucion):
+
+def es_solucion(grafo, solucion, v_actual):
     for v in solucion:
-        for w in solucion:
-            if v == w: 
-                continue
-            if not grafo.estan_unidos(v, w):
-                return False
+        if grafo.son_adyacentes(v, v_actual):
+            return False
     return True
