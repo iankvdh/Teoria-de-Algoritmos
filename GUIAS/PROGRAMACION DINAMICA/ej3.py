@@ -21,6 +21,14 @@ def escalera(n):
 
 # con memo bottom up
 def escalera_memo(n):
+    if n == 0:
+        return 1
+    if n == 1:
+        return 1
+    if n == 2:
+        return 2
+    if n == 3:
+        return 4
     memo = []
     memo[0] = 1
     memo[1] = 1

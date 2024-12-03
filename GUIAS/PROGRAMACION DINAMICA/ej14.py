@@ -52,7 +52,6 @@ def _lunatico(ganancias):
 def lunatico(ganancias):
     if len(ganancias) == 0:
         return []
-    print(ganancias)
     if len(ganancias) == 1:
         return [0]
     if len(ganancias) == 2:

@@ -21,12 +21,3 @@ def _subconjuntos_que_suman_n(L, n, i, sol_parcial, res):
 
     _subconjuntos_que_suman_n(L, n, i+1, sol_parcial, res)
 
-# TESTS
-
-L = [1, 2, 3, 4, 5]
-n = 5
-print(subconjuntos_que_suman_n(L, n)) # [[1, 4], [2, 3], [5]]
-
-L = [1, 2, 6]
-n = 5
-print(subconjuntos_que_suman_n(L, n)) # []

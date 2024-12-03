@@ -27,6 +27,10 @@ def fib_memo_wrap(n, memo):
 
 # BOTTOM UP #
 def fib(n):
+    if n == 0:
+        return 1
+    if n == 1:
+        return 1
     memo = [None] * (n + 1)
     memo[0] = 1
     memo[1] = 1

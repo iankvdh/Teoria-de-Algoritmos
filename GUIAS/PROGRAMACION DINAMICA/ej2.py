@@ -23,7 +23,6 @@ def buscar_charlita_que_no_solape(charlas,ini,fin,i):
         return buscar_charlita_que_no_solape(charlas,mitad+1,fin,i)
     return buscar_charlita_que_no_solape(charlas,ini,mitad,i)
 
-
 def scheduling(charlas):
     p = [None] * (len(charlas) + 1) 
     opt = [None] * (len(charlas) + 1)
@@ -37,18 +36,13 @@ def scheduling(charlas):
         fin = charlas[i-1][1]
         valor = charlas[i-1][2]
         p[i] = buscar_charlita_que_no_solape(charlas,0, len(charlas)-1, i-1)
-    
-    print(f'ARREGLO P: {p}')
 
     for i in range(1,len(charlas)+1):
         valor = charlas[i-1][2]
         opt[i] = max(valor + opt[p[i]], opt[i-1])
 
-    print(f'ARREGLO OPT: {opt}')
-
     sol = reconstruir_charlas(charlas, opt, p)
     return sol
-
 
 def reconstruir_charlas(charlas, opt, p):
     sol = []

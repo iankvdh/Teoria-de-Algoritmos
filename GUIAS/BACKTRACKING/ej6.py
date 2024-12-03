@@ -36,7 +36,6 @@ def sig_pos_a_usar(cant_elem, M):
     return 9 * 9
 
 # Funcion backtraking sudoku
-
 def sudoku(cant_elem, M):
     if cant_elem >= 9 * 9:
         return True

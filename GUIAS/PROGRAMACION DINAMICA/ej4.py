@@ -8,6 +8,10 @@ Indicar y justificar la complejidad del algoritmo implementado.
 
 # bottom up con memo
 def max_ganancia(arr):
+    if len(arr) == 0:
+        return []
+    if len(arr) == 1:
+        return [0]
     n = len(arr)
     memo = [0] * n
     memo[0] = arr[0]
@@ -29,6 +33,7 @@ def reconstruir(memo, arr):
         else:
             res.append(i)
             i -= 2
+    res.reverse()
     return res
 
 # Complejidad: O(n) donde n es la cantidad de días en los que Juan tiene ofertas de trabajo.

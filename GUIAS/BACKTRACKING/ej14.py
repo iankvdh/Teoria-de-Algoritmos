@@ -34,23 +34,3 @@ def es_dominating_set(grafo, sol_parcial):
         if v not in visitados:
             return False
     return True
-
-g = grafo.Grafo()
-
-g.agregar_vertice('A')
-g.agregar_vertice('B')
-g.agregar_vertice('C')
-g.agregar_vertice('D')
-g.agregar_vertice('E')
-g.agregar_vertice('F')
-g.agregar_vertice('G')
-
-g.agregar_arista('A', 'B')
-g.agregar_arista('A', 'C')
-g.agregar_arista('B', 'D')
-g.agregar_arista('B', 'E')
-g.agregar_arista('C', 'F')
-g.agregar_arista('E', 'G')
-g.agregar_arista('F', 'G')
-
-print(dominating_set_min(g)) 

@@ -38,10 +38,4 @@ def monedas_cambio(sistema, cambio, dp):
                 break
     return monedas
 
-sistema = [1, 5, 10, 20, 50, 100, 500, 1000]
-cambio = 96
-dp = cambio_monedas(sistema, cambio)
-print(dp)
-print(monedas_cambio(sistema, cambio, dp))
-
 # Complejidad: O(n*cambio) donde n es la cantidad de monedas/billetes en el sistema monetario.
