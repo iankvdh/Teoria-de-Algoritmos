@@ -16,18 +16,16 @@ K-Clique: Dado un grafo G y un número entero k, se busca un subgrafo H de G tal
 3) Reducción de Independent Set a K-Clique:
 
 Para reducir Independent Set a K-Clique, se puede realizar la siguiente transformación:
-Dado un grafo G y un número entero k, se busca un Independent Set de tamaño k en G.
-Se puede transformar este problema a un problema de K-Clique de la siguiente manera:
-Se busca un K-Clique de tamaño k en el complemento de G.
+(Independent Set) <=p (K-Clique)
+Para reducir Independent Set a K-Clique, se construye un grafo G' de la siguiente manera:
+- Se toma el grafo G original de Independent Set.
+- Se invierte las aristas de G, es decir, si dos vértices estaban conectados por una arista en G, en G' no hay arista entre ellos.
+- Se busca un K-Clique en el grafo G' de tamaño k.
 
-Demostración:
-Si existe un Independent Set de tamaño k en G, entonces existe un K-Clique de tamaño k en el complemento de G.
-Sea D un Independent Set de tamaño k en G. Entonces, el conjunto de vértices V - D es un K-Clique de tamaño k en el complemento de G.
-Si D es un Independent Set, entonces no hay aristas entre los vértices de D. Por lo tanto, en el COMPLEMENTO de G, todas las aristas están presentes entre los vértices de V - D.
+4) Demostración:
+Si existe un Independent Set de tamaño k en el grafo G, entonces existe un K-Clique de tamaño k en el grafo G'. Sea D un conjunto de vértices de G tal que en cada vértice de D no hay aristas entre ellos. Entonces, D es un Independent Set de tamaño k en el grafo G. Si D es un Independent Set, entonces no hay aristas entre los vértices de D en G. Por lo tanto, D es un K-Clique de tamaño k en el grafo G'.
 
-Si existe un K-Clique de tamaño k en el complemento de G, entonces existe un Independent Set de tamaño k en G.
-Sea D un K-Clique de tamaño k en el complemento de G. Entonces, el conjunto de vértices V - D es un Independent Set de tamaño k en G.
-Si D es un K-Clique, entonces todas las aristas del complemento de G están presentes entre los vértices de D. Por lo tanto, en G, no hay aristas entre los vértices de V - D.
+Si existe un K-Clique de tamaño k en el grafo G', entonces existe un Independent Set de tamaño k en el grafo G. Sea H un subgrafo de G' tal que H es un K-Clique de tamaño k. Entonces, en H no hay aristas entre los vértices de H en G'. Si se invierten las aristas de G', entonces en G no hay aristas entre los vértices de H. Por lo tanto, H es un Independent Set de tamaño k en el grafo G.
 
 Por lo tanto, se puede reducir Independent Set a K-Clique.
 """
