@@ -7,6 +7,13 @@ maximizar la ganancia total. Indicar y justificar la complejidad del algoritmo i
 Luego, reconstruir con la matriz obtenida qué elementos se deben guardar.
 """
 
+"""
+Ecuacion de recurrencia:
+
+OPT(n, W) = max ->  OPT(n-1, W)
+                ->  OPT(n-1, W - Pi) + Vi
+"""
+
 def mochila(W, valores, pesos):
     n = len(valores)
     memo = [[0 for _ in range(W+1)] for _ in range(n+1)]
@@ -25,7 +32,7 @@ def elementos_mochila(w, valores, pesos, dp):
     j = w
     while i > 0 and j > 0:
         if dp[i][j] != dp[i-1][j]:
-            elementos.append(valores[i-1])
+            elementos.append(i-1)
             j -= pesos[i-1]
         i -= 1
     elementos.reverse()
