@@ -13,8 +13,14 @@ Ecuacion de recurrencia:
 OPT(n, W) = max ->  OPT(n-1, W)
                 ->  OPT(n-1, W - Pi) + Vi
 """
+# cada elemento i de la forma (valor, peso)
+def mochila(elementos, W):
+    valores = [e[0] for e in elementos]
+    pesos = [e[1] for e in elementos]
+    dp = mi_mochila(W, valores, pesos)
+    return elementos_mochila(W, valores, pesos, dp)
 
-def mochila(W, valores, pesos):
+def mi_mochila(W, valores, pesos):
     n = len(valores)
     memo = [[0 for _ in range(W+1)] for _ in range(n+1)]
     for i in range(1, n+1):
@@ -32,7 +38,7 @@ def elementos_mochila(w, valores, pesos, dp):
     j = w
     while i > 0 and j > 0:
         if dp[i][j] != dp[i-1][j]:
-            elementos.append(i-1)
+            elementos.append((valores[i-1], pesos[i-1]))
             j -= pesos[i-1]
         i -= 1
     elementos.reverse()
@@ -50,13 +56,3 @@ de vista, la complejidad es O(n*2^m), que es exponencial.
 Generamos columnas con cada una de las permutaciones posibles de los pesos, y en cada una
 de ellas calculamos el valor máximo que se puede obtener con los elementos que tenemos.
 """
-
-valores = [58, 15, 51, 31, 13, 89, 19, 4, 75, 50]
-pesos = [7, 6, 12, 2, 12, 15, 9, 12, 8, 8]
-W = 15
-dp = mochila(W, valores, pesos)
-print(elementos_mochila(W, valores, pesos, dp)) # [100, 120]
-
-
-
-
