@@ -17,17 +17,16 @@
 # Complejidad: O(n log n) por el ordenamiento.
 
 def mochila(elementos, W):
-    #ESTO ESTA MAL EN RPL xd
     elementos.sort(key=lambda x: x[0]/x[1], reverse=True)
     peso_actual = 0
     valor_actual = 0
     elementos_guardados = []
-    for elemento in elementos:
-        if peso_actual + elemento[1] <= W:
-            peso_actual += elemento[1]
-            valor_actual += elemento[0]
-            elementos_guardados.append(elemento)
-    return elementos
+    for i in range(len(elementos)):
+        if peso_actual + elementos[i][1] <= W:
+            peso_actual += elementos[i][1]
+            valor_actual += elementos[i][0]
+            elementos_guardados.append(elementos[i])
+    return elementos_guardados
 
 """
 Es un algoritmo Greedy porque en cada paso buscamos el optimo local con el fin de llegar a un optimo global.
