@@ -17,8 +17,7 @@ def max_grupos_bodegon(P, W):
 def _max_grupos_bodegon(P, W, index, sol_parcial, sol_optima):
     if index == len(P):
         if sum(sol_parcial) > sum(sol_optima):
-            sol_optima.clear()
-            sol_optima.extend(sol_parcial)
+            return sol_parcial[:]
         return sol_optima
 
     if sum(sol_optima) == W:

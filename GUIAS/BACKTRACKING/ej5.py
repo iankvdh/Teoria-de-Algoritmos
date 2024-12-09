@@ -8,23 +8,28 @@ camino hamiltoniano de un grafo dado.
 """
 
 def camino_hamiltoniano(grafo):
-    res = []
-    vertices = grafo.obtener_vertices()
-    for v in vertices:
-        res = _camino_hamiltoniano(grafo,v, [])
-        if len(res) == len(vertices):
-            return res
-    return -1 #no hay camino hamiltoniano    
+    camino = []
+    visitados = set()
     
-def _camino_hamiltoniano(grafo, vertice, sol_parcial):
-    sol_parcial.append(vertice)
+    for v in grafo:
+        if _camino_hamiltoniano(grafo, v, visitados, camino):
+            return camino
+    
+    return None
 
-    if len(sol_parcial) == len(grafo.obtener_vertices()):
-        return sol_parcial
-
-    for w in grafo.adyacentes(vertice):
-        if w not in sol_parcial:
-            return _camino_hamiltoniano(grafo, w, sol_parcial)
-
-    sol_parcial.remove(vertice)
-    return sol_parcial
+def _camino_hamiltoniano(grafo, v, visitados, camino):
+    visitados.add(v)
+    camino.append(v)
+    
+    if len(visitados) == len(grafo):
+        return True
+       
+    for w in grafo.adyacentes(v):
+        if w not in visitados:
+            if _camino_hamiltoniano(grafo, w, visitados, camino):
+                return True
+    
+    visitados.remove(v)
+    camino.pop()
+    
+    return False

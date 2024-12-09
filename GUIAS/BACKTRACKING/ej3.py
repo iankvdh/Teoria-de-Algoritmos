@@ -31,11 +31,18 @@ def es_compatible(tablero, fila, columna):
                 return False
     return True
 
-def n_reinas(tablero, n):
-    if tablero is None or n is None:
-        return None
+def n_reinas(n):
+    tablero = [[VACIO for i in range(n)] for j in range(n)]
+    if n == 0:
+        return []
     cantidad_reinas = 0
-    return n_reinas_aux(tablero, n, 0, 0, cantidad_reinas)
+    n_reinas_aux(tablero, n, 0, 0, cantidad_reinas)
+    res = []
+    for i in range(len(tablero)):
+        for j in range(len(tablero)):
+            if tablero[i][j] == REINA:
+                res.append((i, j))
+    return res
 
 def n_reinas_aux(tablero, n, fila, columna, cantidad_reinas):
     if cantidad_reinas == n:

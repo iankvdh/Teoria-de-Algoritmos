@@ -29,33 +29,28 @@ def mudanza(L, C, M):
             L[i-1] + M + dp[i-2],
             C[i-1] + M + dp[i-2]
         )
+    print(dp)
     return dp
 
-def reconstruccion(dp, L, C, M): # a chequear
+def reconstruccion(dp, L, C, M):
     n = len(dp) - 1
     i = n
     localizaciones = []
     while i > 0:
-        if dp[i] == L[i-1] + dp[i-1]:
-            localizaciones.append('Londres')
+        if L[i-1] + dp[i-1] == dp[i]:
+            localizaciones.append('londres')
             i -= 1
-        elif dp[i] == C[i-1] + dp[i-1]:
-            localizaciones.append('California')
+        elif C[i-1] + dp[i-1] == dp[i]:
+            localizaciones.append('california')
             i -= 1
-        elif dp[i] == L[i-1] + M + dp[i-2]:
-            localizaciones.append('Londres')
-            localizaciones.append('California')
+        elif L[i-1] + M + dp[i-2] == dp[i]:
+            localizaciones.append('londres')
+            localizaciones.append('california')
             i -= 2
-        else:
-            localizaciones.append('California')
-            localizaciones.append('Londres')
-            i -= 2
+        elif C[i-1] + M + dp[i-2] == dp[i]:
+            localizaciones.append('california')
+            localizaciones.append('londres')
     localizaciones.reverse()
     return localizaciones
-
-L = [1, 20, 6, 9, 3, 10]
-C = [50, 20, 2, 4, 5, 8]
-M = 5
-print(reconstruccion(mudanza(L, C, M), L, C, M))
 
 # Complejidad: O(n) donde n es la cantidad de meses que queremos minimizar el costo de operación.
