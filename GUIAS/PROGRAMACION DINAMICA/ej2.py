@@ -14,12 +14,22 @@ Indicar y justificar la complejidad del algoritmo implementado.
 
 # OPT(i) = max(valor(i) + OPT(p(i)), OPT(i-1))
 
+"""
+def sche_dinamico(n, p, valor):
+   if n == 0:
+       return 0
+   M_SCHE = [0] * (n + 1)
+   M_SCHE[0] = 0
+   for j in range(1, n + 1):
+       M_SCHE[j] = max(valor[j] + M_SCHE[p[j]], M_SCHE[j-1])
+   return M_SCHE[n]
+"""
 
 def buscar_charlita_que_no_solape(charlas,ini,fin,i):
     if ini == fin:
         return ini
     mitad = (ini + fin) // 2
-    if charlas[i][0] > charlas[mitad][1]:
+    if charlas[mitad][1] <= charlas[i][0]:
         return buscar_charlita_que_no_solape(charlas,mitad+1,fin,i)
     return buscar_charlita_que_no_solape(charlas,ini,mitad,i)
 
@@ -29,20 +39,12 @@ def scheduling(charlas):
     p[0] = 0
     opt[0] = 0
     charlas = sorted(charlas, key=lambda x: x[1])
-    print(charlas)
 
-    for i in range(1,len(charlas) + 1):
-        ini = charlas[i-1][0]
-        fin = charlas[i-1][1]
-        valor = charlas[i-1][2]
-        p[i] = buscar_charlita_que_no_solape(charlas,0, len(charlas)-1, i-1)
-
-    for i in range(1,len(charlas)+1):
-        valor = charlas[i-1][2]
-        opt[i] = max(valor + opt[p[i]], opt[i-1])
-
-    sol = reconstruir_charlas(charlas, opt, p)
-    return sol
+    for i in range(1, len(charlas)+1):
+        p[i] = buscar_charlita_que_no_solape(charlas,0,i-1,i-1)
+        opt[i] = max(charlas[i-1][2] + opt[p[i]], opt[i-1])
+    
+    return reconstruir_charlas(charlas, opt, p)
 
 def reconstruir_charlas(charlas, opt, p):
     sol = []
@@ -57,28 +59,5 @@ def reconstruir_charlas(charlas, opt, p):
 
     sol.reverse()
     return sol
-
-# test
-charlas = [
-    (0, 4, 2),   # (horario_inicio, horario_fin, valor)
-    (1, 6, 4),
-    (5, 8, 4),
-    (2, 11, 7),
-    (9, 12, 2),
-    (10, 13, 1)
-]
-
-print(scheduling(charlas))
-
-"""
-def sche_dinamico(n, p, valor):
-   if n == 0:
-       return 0
-   M_SCHE = [0] * (n + 1)
-   M_SCHE[0] = 0
-   for j in range(1, n + 1):
-       M_SCHE[j] = max(valor[j] + M_SCHE[p[j]], M_SCHE[j-1])
-   return M_SCHE[n]
-"""
 
 # Complejidad: O(n*log(n)) donde n es la cantidad de charlas que se tienen.

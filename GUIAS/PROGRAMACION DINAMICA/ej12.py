@@ -14,6 +14,13 @@ que no se solape con la actual, y la ganancia de la campaña anterior.
 
 Es igual al problema de la mochila, pero en vez de tener un peso, tenemos un costo.
 """
+def carlitos(c_publicitarias, P):
+    c_publicitarias = [(g, c) for g, c in c_publicitarias if c <= P]
+    costos = [e[1] for e in c_publicitarias]
+    ganancias = [e[0] for e in c_publicitarias]
+    dp = campañas_publicitarias(P, costos, ganancias)
+    return campañas_elegidas(P, costos, ganancias, dp)
+
 
 def campañas_publicitarias(P, costos, ganancias):
     n = len(costos)
@@ -26,14 +33,14 @@ def campañas_publicitarias(P, costos, ganancias):
                 memo[i][j] = memo[i-1][j]
     return memo
 
-def campañas_elegidas(P, costos, ganancias, dp):
+def campañas_elegidas(P, costos, ganancias, dp):    
     n = len(costos)
     campañas = []
     i = n
     j = P
     while i > 0 and j > 0:
         if dp[i][j] != dp[i-1][j]:
-            campañas.append(ganancias[i-1])
+            campañas.append((costos[i-1], ganancias[i-1]))
             j -= costos[i-1]
         i -= 1
     campañas.reverse()
@@ -50,9 +57,4 @@ de vista, la complejidad es O(n*2^m), que es exponencial.
 
 Generamos columnas con cada una de las permutaciones posibles de los costos, y en cada una
 de ellas calculamos el valor máximo que se puede obtener con los elementos que tenemos.
-"""
-
-"""
-Analisis de la conversion de monedas:
-###
 """
