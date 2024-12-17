@@ -47,7 +47,4 @@ Se puede transformar este problema a un problema de Hitting-Set de la siguiente 
 - Se construye un conjunto de subconjuntos B1, B2, ..., Bm de A de la siguiente manera:
     - Para cada vértice v en G, se construye un subconjunto Bv de A con los vértices adyacentes a v.
 - Se busca un subconjunto C de A con tamaño menor o igual a k tal que C contenga al menos un vértice de cada subconjunto Bv.
-
-
-
 """
