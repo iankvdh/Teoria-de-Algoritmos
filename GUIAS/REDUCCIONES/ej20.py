@@ -24,10 +24,12 @@ def verificador_path_selection(G, pedidos, k, caminos):
         return False
 
     # chequeo de que ningún par de caminos seleccionados comparta ningún nodo
-    for i in range(len(caminos)):
-        for j in range(i+1, len(caminos)):
-            if set(caminos[i]).intersection(set(caminos[j])):
+    visitados = set()
+    for camino in caminos:
+        for nodo in camino:
+            if nodo in visitados:
                 return False
+            visitados.add(nodo)
     return True
 
 """

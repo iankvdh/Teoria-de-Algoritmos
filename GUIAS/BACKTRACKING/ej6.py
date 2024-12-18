@@ -35,6 +35,10 @@ def sig_pos_a_usar(cant_elem, M):
             return x
     return 9 * 9
 
+def sudoku_solver(M):
+    sudoku(0, M)
+    return M
+
 # Funcion backtraking sudoku
 def sudoku(cant_elem, M):
     if cant_elem >= 9 * 9:

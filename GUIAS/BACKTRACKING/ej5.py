@@ -11,7 +11,7 @@ def camino_hamiltoniano(grafo):
     camino = []
     visitados = set()
     
-    for v in grafo:
+    for v in grafo.obtener_vertices():
         if _camino_hamiltoniano(grafo, v, visitados, camino):
             return camino
     
@@ -21,7 +21,7 @@ def _camino_hamiltoniano(grafo, v, visitados, camino):
     visitados.add(v)
     camino.append(v)
     
-    if len(visitados) == len(grafo):
+    if len(visitados) == len(grafo.obtener_vertices()):
         return True
        
     for w in grafo.adyacentes(v):
