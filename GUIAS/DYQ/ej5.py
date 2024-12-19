@@ -1,43 +1,27 @@
 # Implementar Merge Sort. Justificar el orden del algoritmo mediante el teorema maestro.
 
-def merge_sort(my_list):
-	# Base Case
-    if len(my_list) <= 1:
-        return my_list
-   
-    list_1 = my_list[0:len(my_list) / 2]
-    list_2 = my_list[len(my_list) / 2:]
-    
-   	# Induction Step
-    ans_1 = merge_sort(list_1)
-    ans_2 = merge_sort(list_2)
-    
-    # Sorting and merging two sorted list
-    sort_list = sort_two_list(ans_1, ans_2)
-    return sort_list
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    medio = len(arr) // 2
+    izq = merge_sort(arr[:medio])
+    der = merge_sort(arr[medio:])
+    return intercalar_ordenado(izq, der)
 
-# Separate Function to sort and merge 2 sorted lists
-def sort_two_list(list_1, list_2):
-    final_list = []
+def intercalar_ordenado(izq, der):
     i = 0
     j = 0
-    while i < len(list_1) and j < len(list_2):
-        if list_1[i] <= list_2[j]:
-            final_list.append(list_1[i])
+    res = []
+    while i < len(izq) and j < len(der):
+        if izq[i] < der[j]:
+            res.append(izq[i])
             i += 1
-            continue
-        final_list.append(list_2[j])
-        j += 1
-
-    while i < len(list_1):
-        final_list.append(list_1[i])
-        i = i + 1
-        
-    while j < len(list_2):
-        final_list.append(list_2[j])
-        j = j + 1
-        
-    return final_list
+        else:
+            res.append(der[j])
+            j += 1
+    res.extend(izq[i:])
+    res.extend(der[j:])
+    return res
 
 # Resuelvo con teorema maestro...
 
