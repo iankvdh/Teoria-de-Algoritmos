@@ -64,6 +64,9 @@ def transformar_a_flujo(grafo, U, V):
         for v in grafo.adyacentes(u):
             if v in V:
                 grafo_flujo.agregar_arista(u, v, 1)
+                vertice_nuevo = grafo.agregar_vertice(f'{u},{v}')
+                grafo_flujo.agregar_arista(v, vertice_nuevo, 1)
+                grafo_flujo.agregar_arista(vertice_nuevo, u, 1)              
 
     return grafo_flujo, fuente, sumidero
 
@@ -121,4 +124,3 @@ def matching_maximo(grafo):
     grafo_flujo, fuente, sumidero = transformar_a_flujo(grafo, U, V)
     grafo_res, flujo = ford_fulkerson(grafo_flujo, fuente, sumidero)
     return calcular_flujo_maximo(grafo_res, flujo, fuente, sumidero)
-
