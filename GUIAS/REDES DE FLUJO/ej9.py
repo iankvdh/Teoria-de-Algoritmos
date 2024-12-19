@@ -63,10 +63,7 @@ def transformar_a_flujo(grafo, U, V):
     for u in U:
         for v in grafo.adyacentes(u):
             if v in V:
-                grafo_flujo.agregar_arista(u, v, 1)
-                vertice_nuevo = grafo.agregar_vertice(f'{u},{v}')
-                grafo_flujo.agregar_arista(v, vertice_nuevo, 1)
-                grafo_flujo.agregar_arista(vertice_nuevo, u, 1)              
+                grafo_flujo.agregar_arista(u, v, 1)            
 
     return grafo_flujo, fuente, sumidero
 
