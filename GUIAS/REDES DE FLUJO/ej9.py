@@ -120,4 +120,9 @@ def matching_maximo(grafo):
 
     grafo_flujo, fuente, sumidero = transformar_a_flujo(grafo, U, V)
     grafo_res, flujo = ford_fulkerson(grafo_flujo, fuente, sumidero)
-    return calcular_flujo_maximo(grafo_res, flujo, fuente, sumidero)
+    flujo_max = calcular_flujo_maximo(grafo_res, flujo, fuente, sumidero)
+    matches = set()
+    for (u, v) in flujo:
+        if flujo[(u, v)] == 1:
+            matches.add((u, v))
+    return matches, flujo_max
