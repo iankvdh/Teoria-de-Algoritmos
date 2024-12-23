@@ -26,8 +26,6 @@ El repositorio está organizado en carpetas, cada una representando un trabajo p
 -----------------
 ### Instrucciones para la ejecución de las pruebas
 
-> ⚠️ **ESTOS TRABAJOS ESTÁN EN DESARROLLO** ⚠️
-
 1. **Clone el repositorio**:
    ```
    git clone https://github.com/juandelaHD/TDA-FIUBA-75.29.git

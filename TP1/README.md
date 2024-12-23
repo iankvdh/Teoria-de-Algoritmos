@@ -10,6 +10,15 @@ Además, el proyecto incluye una serie de gráficos y simulaciones que permiten 
 
 Este enfoque no solo permite comprender la solución óptima para Sophia, sino también estudiar el comportamiento general del algoritmo en diferentes escenarios, proporcionando una visión detallada de su eficiencia y resultados en el contexto del juego de las monedas.
 
+### Índice
+
+1. [Estructura del Proyecto](#estructura-del-proyecto)  
+2. [Requisitos](#requisitos)  
+3. [Posibles Ejecuciones](#posibles-ejecuciones)  
+   - [Cómo ejecutar el programa](#cómo-ejecutar-el-programa)  
+   - [Cómo ejecutar los gráficos](#cómo-ejecutar-los-gráficos)    
+4. [Notas adicionales](#notas-adicionales)
+
 ## Estructura del proyecto
 
 ```
