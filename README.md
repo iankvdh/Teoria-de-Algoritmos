@@ -28,7 +28,7 @@ El repositorio está organizado en carpetas, cada una representando un trabajo p
 
 1. **Clone el repositorio**:
    ```
-   git clone https://github.com/juandelaHD/TDA-FIUBA-75.29.git
+   git clone https://github.com/iankvdh/Teoria-de-Algoritmos.git
    ```
 2. **Instale las depencias requeridas**:
    ```
